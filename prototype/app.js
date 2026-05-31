@@ -3,6 +3,9 @@
    ========================================================================== */
 
 document.addEventListener("DOMContentLoaded", () => {
+    // Initialize global variables
+    window.globalNetSavings = 0;
+
     // ---------------------------------------------------------
     // 1. Tab Navigation
     // ---------------------------------------------------------
@@ -225,6 +228,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Render interactive line chart live!
         drawROIChart(teamSize, hourlyRate, parseInt(inputAutomationRate.value), toolCost, hoursSaved, netMonthlySavings);
+        
+        // Save to global variables for map sync
+        window.globalNetSavings = netMonthlySavings;
+        if (window.triggerMapUpdate) {
+            window.triggerMapUpdate();
+        }
     }
 
     // Sliders Event Listeners
@@ -602,51 +611,52 @@ ORDER BY s.actual_transit_days DESC;
         }, 600);
     });
 
-    // Initialize with default role (Supply Chain)
-    updatePromptView("supply-chain");
+    // ---------------------------------------------------------
+    // 5. Interactive SVG Map Selection Logic (100% Dynamic Sync)
+    // ---------------------------------------------------------
+    
+    // Store global net savings for regional ROI calculations (initialized at top)
+    let activeMapNodeKey = "seattle";
 
-    // ---------------------------------------------------------
-    // 5. Interactive SVG Map Selection Logic (100% Standalone)
-    // ---------------------------------------------------------
     const nodes = {
         "seattle": {
             title: "<i class='fa-solid fa-satellite-dish'></i> Seattle Cloud Data & Supply Chain Hub",
             desc: "Focuses on international shipping lane analytics, logistics risk mitigation, and automated safety stock calculation engines.",
-            stats: [
+            roiWeight: 0.20,
+            baseStats: [
                 "↓ 18% shipping delay",
                 "Llama-3-Agent",
-                "$4,650 /mo",
-                "14 Minutes"
+                "14" // Base Latency in minutes
             ]
         },
         "sf": {
             title: "<i class='fa-solid fa-brain'></i> San Francisco AI & Product Strategy Hub",
             desc: "Serves as the central product intelligence center, analyzing JTBD customer reviews, competitive metrics, and RICE feature scoring models.",
-            stats: [
+            roiWeight: 0.40,
+            baseStats: [
                 "↓ 60% discovery lag",
                 "Claude-3.5-Sonnet",
-                "$9,200 /mo",
-                "4 Minutes"
+                "4"
             ]
         },
         "chicago": {
             title: "<i class='fa-solid fa-users-line'></i> Chicago Agile Scrum & Operations Node",
             desc: "Responsible for sprint lifecycle metrics, milestone dependency mapping, critical path risk log auditing, and Agile backlog readiness guides.",
-            stats: [
+            roiWeight: 0.25,
+            baseStats: [
                 "↑ 250% sprint readiness",
                 "Llama-3-70B",
-                "$6,150 /mo",
-                "8 Minutes"
+                "8"
             ]
         },
         "austin": {
             title: "<i class='fa-solid fa-rectangle-list'></i> Austin Code Refactoring & Software Scaling Hub",
             desc: "Manages data warehouse modeling (Star Schema SQL), database index tuning, query complexity auditing (Big-O analysis), and ETL pipeline execution.",
-            stats: [
+            roiWeight: 0.15,
+            baseStats: [
                 "↓ 40% code review lag",
                 "GPT-4o-Coder",
-                "$8,400 /mo",
-                "5 Minutes"
+                "5"
             ]
         }
     };
@@ -659,6 +669,51 @@ ORDER BY s.actual_transit_days DESC;
     const nodeStat3 = document.getElementById("node-stat-3");
     const nodeStat4 = document.getElementById("node-stat-4");
 
+    function updateActiveNodeDisplay() {
+        const data = nodes[activeMapNodeKey];
+        if (data && nodeDetailTitle) {
+            // Update Title & Desc
+            nodeDetailTitle.innerHTML = data.title;
+            nodeDetailDesc.textContent = data.desc;
+            
+            // ⚙️ Calculate Dynamic Operational Velocity and apply minor telemetry fluctuation (+/- 0.2%)
+            const automationPercent = parseInt(document.getElementById("automation-rate").value) || 10;
+            const telemetryFluctuation = (Math.random() * 0.4 - 0.2).toFixed(1);
+            
+            let dynamicVelocity = "";
+            if (activeMapNodeKey === "seattle") {
+                const baseVal = Math.min(95, Math.round(8 + (automationPercent * 1.0)));
+                const displayVal = (parseFloat(baseVal) + parseFloat(telemetryFluctuation)).toFixed(1);
+                dynamicVelocity = `↓ ${displayVal}% shipping delay`;
+            } else if (activeMapNodeKey === "sf") {
+                const baseVal = Math.min(98, Math.round(30 + (automationPercent * 3.0)));
+                const displayVal = (parseFloat(baseVal) + parseFloat(telemetryFluctuation)).toFixed(1);
+                dynamicVelocity = `↓ ${displayVal}% discovery lag`;
+            } else if (activeMapNodeKey === "chicago") {
+                const baseVal = Math.round(80 + (automationPercent * 17));
+                const displayVal = (parseFloat(baseVal) + parseFloat(telemetryFluctuation)).toFixed(1);
+                dynamicVelocity = `↑ ${displayVal}% sprint readiness`;
+            } else if (activeMapNodeKey === "austin") {
+                const baseVal = Math.min(95, Math.round(15 + (automationPercent * 2.5)));
+                const displayVal = (parseFloat(baseVal) + parseFloat(telemetryFluctuation)).toFixed(1);
+                dynamicVelocity = `↓ ${displayVal}% code review lag`;
+            }
+            
+            nodeStat1.textContent = dynamicVelocity;
+            nodeStat2.textContent = data.baseStats[1];
+            
+            // 💰 Calculate Dynamic ROI: Multiply total Net Savings by this node's weight
+            const regionalROI = window.globalNetSavings > 0 ? Math.round(window.globalNetSavings * data.roiWeight) : 0;
+            nodeStat3.textContent = `$${regionalROI.toLocaleString()} /mo`;
+            
+            // ⏳ Live Telemetry Anomaly: Introduce a minor flicker (+/- 1-2 mins) to simulate active tracking
+            const baseLatency = parseInt(data.baseStats[2]);
+            const flicker = Math.floor(Math.random() * 3) - 1; // -1, 0, 1
+            const liveLatency = Math.max(1, baseLatency + flicker);
+            nodeStat4.textContent = `${liveLatency} Minutes`;
+        }
+    }
+
     mapNodes.forEach(node => {
         node.addEventListener("click", () => {
             // Remove active state from all nodes
@@ -667,19 +722,22 @@ ORDER BY s.actual_transit_days DESC;
             // Add active state to clicked node
             node.classList.add("active");
             
-            // Fetch node key from ID (e.g. "node-sf" -> "sf")
-            const nodeKey = node.id.replace("node-", "");
-            const data = nodes[nodeKey];
-            
-            if (data) {
-                // Update text details dynamically with smooth rendering
-                nodeDetailTitle.innerHTML = data.title;
-                nodeDetailDesc.textContent = data.desc;
-                nodeStat1.textContent = data.stats[0];
-                nodeStat2.textContent = data.stats[1];
-                nodeStat3.textContent = data.stats[2];
-                nodeStat4.textContent = data.stats[3];
-            }
+            // Set active key and refresh display
+            activeMapNodeKey = node.id.replace("node-", "");
+            updateActiveNodeDisplay();
         });
     });
+
+    // Share update function globally so calculateROI can trigger it dynamically!
+    window.triggerMapUpdate = updateActiveNodeDisplay;
+
+    // ⏳ Live Telemetry Auto-Updater: Periodically flicker latency and minor stats
+    setInterval(() => {
+        if (document.getElementById("operations-map").classList.contains("active")) {
+            updateActiveNodeDisplay();
+        }
+    }, 3000);
+
+    // Initialize with default role (Supply Chain)
+    updatePromptView("supply-chain");
 });

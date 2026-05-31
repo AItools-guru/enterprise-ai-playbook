@@ -318,6 +318,15 @@
 
             <!-- Tab Content: Global Operations Map -->
             <section id="operations-map" class="tab-panel">
+                <!-- Strategic Playbook Introduction Card -->
+                <div class="card intro-card" style="margin-bottom: 24px;">
+                    <h3><i class="fa-solid fa-circle-nodes"></i> The Enterprise AI Power Grid — Operational Model</h3>
+                    <p style="font-size: 13px; line-height: 1.6; color: var(--text-primary);">
+                        Welcome to the <strong>Global AI Operations Map</strong>. This blueprint visualizes the geographic distribution of our applied AI prompts across 4 strategic business hubs. By clicking each pulsing node, you audit the localized AI metrics, model integrations, and regional ROI contributions. 
+                        <br /><span style="color: var(--accent-gold); font-weight: 600;"><i class="fa-solid fa-lightbulb"></i> Dynamic Integration:</span> The financial ROI contribution displayed for each node is calculated in real-time based on the global team sliders you configure on the <strong>ROI Simulator</strong> tab!
+                    </p>
+                </div>
+
                 <div class="dashboard-grid">
                     <!-- Left: Interactive SVG Map Grid -->
                     <div class="card map-card" style="padding: 20px;">
@@ -393,8 +402,28 @@
                                 </g>
                             </svg>
                         </div>
+                        
+                        <!-- Sleek Map Legend / Active Hub Specialization -->
+                        <div class="map-legend" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border-color); font-size: 11px;">
+                            <div style="display: flex; align-items: center; gap: 8px; background: rgba(255, 255, 255, 0.01); border: 1px solid rgba(255, 255, 255, 0.03); border-radius: 6px; padding: 6px 10px;">
+                                <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #58a6ff; box-shadow: 0 0 6px #58a6ff;"></span>
+                                <span style="color: var(--text-secondary);"><strong style="color: var(--text-primary);">Seattle Hub</strong>: Supply Chain (20% ROI)</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 8px; background: rgba(255, 255, 255, 0.01); border: 1px solid rgba(255, 255, 255, 0.03); border-radius: 6px; padding: 6px 10px;">
+                                <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #ffd700; box-shadow: 0 0 6px #ffd700;"></span>
+                                <span style="color: var(--text-secondary);"><strong style="color: var(--text-primary);">San Francisco</strong>: Product Strategy (40% ROI)</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 8px; background: rgba(255, 255, 255, 0.01); border: 1px solid rgba(255, 255, 255, 0.03); border-radius: 6px; padding: 6px 10px;">
+                                <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #58a6ff; box-shadow: 0 0 6px #58a6ff;"></span>
+                                <span style="color: var(--text-secondary);"><strong style="color: var(--text-primary);">Chicago Node</strong>: Agile Operations (25% ROI)</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 8px; background: rgba(255, 255, 255, 0.01); border: 1px solid rgba(255, 255, 255, 0.03); border-radius: 6px; padding: 6px 10px;">
+                                <span style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #ffd700; box-shadow: 0 0 6px #ffd700;"></span>
+                                <span style="color: var(--text-secondary);"><strong style="color: var(--text-primary);">Austin Node</strong>: Software Scaling (15% ROI)</span>
+                            </div>
+                        </div>
                     </div>
-
+ 
                     <!-- Right: Node Diagnostics Card -->
                     <div class="card diagnostics-card" style="padding: 24px;">
                         <h3 id="node-detail-title"><i class="fa-solid fa-satellite-dish"></i> Seattle Cloud Data & Supply Chain Hub</h3>
@@ -433,6 +462,48 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sleek Global Nodes System Description Guide -->
+                <div class="card system-guide-card" style="margin-top: 24px; padding: 24px; border: 1px solid var(--border-color); background: rgba(13, 17, 23, 0.4); backdrop-filter: blur(12px); border-radius: 12px;">
+                    <h3 style="margin-bottom: 8px; display: flex; align-items: center; gap: 8px; color: var(--accent-cyan);"><i class="fa-solid fa-circle-info"></i> What is an Enterprise Global Node?</h3>
+                    <p style="font-size: 13px; line-height: 1.6; color: var(--text-primary); margin-bottom: 20px;">
+                        A <strong>Global Node</strong> represents a geographically distributed, highly specialized AI execution hub deployed within our corporate network. Each node runs customized Large Language Models (LLMs) tuned specifically for local department workflows (e.g., Supply Chain in Seattle, Software Engineering in Austin). 
+                    </p>
+                    <div class="guide-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px;">
+                        <div class="guide-item" style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.04); border-radius: 8px; padding: 16px; transition: transform 0.2s ease, border-color 0.2s ease;">
+                            <h4 style="color: var(--accent-cyan); display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 13px; font-weight: 700;">
+                                <i class="fa-solid fa-network-wired"></i> 1. Specialized Agents
+                            </h4>
+                            <p style="font-size: 11px; line-height: 1.5; color: var(--text-secondary);">
+                                Running targeted system prompts to automate critical workflows like safety stock modeling, story splitting, or database refactoring.
+                            </p>
+                        </div>
+                        <div class="guide-item" style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.04); border-radius: 8px; padding: 16px; transition: transform 0.2s ease, border-color 0.2s ease;">
+                            <h4 style="color: var(--accent-gold); display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 13px; font-weight: 700;">
+                                <i class="fa-solid fa-calculator"></i> 2. Dynamic Financial Sync
+                            </h4>
+                            <p style="font-size: 11px; line-height: 1.5; color: var(--text-secondary);">
+                                Moving the global team sliders on the <strong>ROI Simulator</strong> dynamically calculates the net savings and distributes them across active hubs based on their ROI Weights.
+                            </p>
+                        </div>
+                        <div class="guide-item" style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.04); border-radius: 8px; padding: 16px; transition: transform 0.2s ease, border-color 0.2s ease;">
+                            <h4 style="color: #bc39fa; display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 13px; font-weight: 700;">
+                                <i class="fa-solid fa-chart-line"></i> 3. Live Telemetry
+                            </h4>
+                            <p style="font-size: 11px; line-height: 1.5; color: var(--text-secondary);">
+                                Simulates active telemetry feedback streams, creating minor periodic fluctuations in latency metrics and operational velocity in real-time.
+                            </p>
+                        </div>
+                        <div class="guide-item" style="background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.04); border-radius: 8px; padding: 16px; transition: transform 0.2s ease, border-color 0.2s ease;">
+                            <h4 style="color: #39ff14; display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-size: 13px; font-weight: 700;">
+                                <i class="fa-solid fa-microchip"></i> 4. Cross-Model Deployment
+                            </h4>
+                            <p style="font-size: 11px; line-height: 1.5; color: var(--text-secondary);">
+                                Demonstrates multi-model infrastructure using Llama-3-Agent, Claude-3.5-Sonnet, and GPT-4o-Coder aligned with specialized regional duties.
+                            </p>
                         </div>
                     </div>
                 </div>
