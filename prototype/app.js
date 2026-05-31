@@ -700,16 +700,30 @@ ORDER BY s.actual_transit_days DESC;
             }
             
             nodeStat1.textContent = dynamicVelocity;
-            nodeStat2.textContent = data.baseStats[1];
+            
+            // 🔗 CROSS-TAB STATE SYNC: Read current roadmap status select box value from Strategy Matrix
+            const statusSelect = document.querySelector(`.gantt-status-select[data-initiative="${activeMapNodeKey}"]`);
+            const statusVal = statusSelect ? statusSelect.value : "live";
+            const statusText = statusSelect ? statusSelect.options[statusSelect.selectedIndex].text : "Live / Active";
+            
+            // Format model integration label dynamically (e.g. Claude-3.5 (Testing))
+            const cleanStatus = statusText.replace(/^\d+\.\s*/, ''); // Remove numbering (e.g. '1. Planning' -> 'Planning')
+            nodeStat2.textContent = `${data.baseStats[1]} (${cleanStatus})`;
             
             // 💰 Calculate Dynamic ROI: Multiply total Net Savings by this node's weight
             const regionalROI = window.globalNetSavings > 0 ? Math.round(window.globalNetSavings * data.roiWeight) : 0;
             nodeStat3.textContent = `$${regionalROI.toLocaleString()} /mo`;
             
-            // ⏳ Live Telemetry Anomaly: Introduce a minor flicker (+/- 1-2 mins) to simulate active tracking
+            // ⏳ Live Telemetry Anomaly + Roadmap Latency Sync: 
+            // If project is in Planning or Development, simulated latency is much higher because it's not production cached!
+            let latencyMultiplier = 1.0;
+            if (statusVal === "planning") latencyMultiplier = 3.8;
+            else if (statusVal === "development") latencyMultiplier = 2.4;
+            else if (statusVal === "testing") latencyMultiplier = 1.5;
+            
             const baseLatency = parseInt(data.baseStats[2]);
             const flicker = Math.floor(Math.random() * 3) - 1; // -1, 0, 1
-            const liveLatency = Math.max(1, baseLatency + flicker);
+            const liveLatency = Math.max(1, Math.round(baseLatency * latencyMultiplier) + flicker);
             nodeStat4.textContent = `${liveLatency} Minutes`;
         }
     }
@@ -737,6 +751,128 @@ ORDER BY s.actual_transit_days DESC;
             updateActiveNodeDisplay();
         }
     }, 3000);
+
+    // ---------------------------------------------------------
+    // 6. Interactive Roadmap & Gantt Chart Event Handlers
+    // ---------------------------------------------------------
+    const quarterBtns = document.querySelectorAll(".quarter-btn");
+    const ganttRows = document.querySelectorAll(".gantt-row");
+    const timelineColHeaders = document.querySelectorAll(".timeline-col-header");
+    const milestoneTitle = document.getElementById("milestone-title");
+    const milestoneDesc = document.getElementById("milestone-desc");
+    const milestoneBox = document.getElementById("milestone-detail-box");
+    const statusSelects = document.querySelectorAll(".gantt-status-select");
+
+    const milestoneBriefs = {
+        "all": {
+            title: "<i class='fa-solid fa-flag-checkered'></i> Active Roadmap Milestone View",
+            desc: "Click on a quarter header (Q1-Q4 buttons above) or modify status selectors to audit specific target dates, core milestones, and downstream engineering deliverables."
+        },
+        "q1": {
+            title: "<i class='fa-solid fa-compass'></i> Q1 Milestone: Infrastructure & Architecture Setup",
+            desc: "<strong>Target Focus:</strong> Establishing enterprise AI framework foundations, setting up secure API gateway tokens, and validating PII anonymization pipelines.<br/>• <strong>Seattle (Supply Chain):</strong> Complete integration of custom port congestion APIs and local safety stock buffers.<br/>• <strong>SF (Product Strategy):</strong> Set up feedback data parsers and semantic scoring logic."
+        },
+        "q2": {
+            title: "<i class='fa-solid fa-gears'></i> Q2 Milestone: Dynamic Model Processing & Integrations",
+            desc: "<strong>Target Focus:</strong> Establishing LLM execution streams, sandbox terminal integrations, and connecting database query models.<br/>• <strong>Seattle Hub:</strong> Launch live route mitigation trials & automated buffer recalculations.<br/>• <strong>SF Hub:</strong> Deploy sentiment anomaly logs and RICE prioritization matrices.<br/>• <strong>Chicago Node:</strong> Configure story mapping and backlog story generation scripts."
+        },
+        "q3": {
+            title: "<i class='fa-solid fa-vial'></i> Q3 Milestone: Stress-Testing & Staging Audits",
+            desc: "<strong>Target Focus:</strong> High-volume load testing, SOC-2 compliance verification, and staging deployments across agile teams.<br/>• <strong>SF Hub:</strong> Finalize UAT testing for executive briefings.<br/>• <strong>Chicago Node:</strong> Complete automated story-point capacity checks.<br/>• <strong>Austin Node:</strong> Audit schema index logic and query execution runtimes."
+        },
+        "q4": {
+            title: "<i class='fa-solid fa-rocket'></i> Q4 Milestone: Enterprise Rollout & Dynamic Governance",
+            desc: "<strong>Target Focus:</strong> Complete production release, load balancing across model gateways (Claude/Llama/GPT), and executive dashboard handoff.<br/>• <strong>Chicago Node:</strong> Roll out automated backlog story generator to 25 cross-functional squads.<br/>• <strong>Austin Node:</strong> Live SQL runtime optimizations on live production warehouse databases."
+        }
+    };
+
+    // Status dropdown change triggers progress bar adjustments
+    statusSelects.forEach(select => {
+        select.addEventListener("change", function() {
+            const status = this.value;
+            const bar = this.closest('.gantt-row').querySelector('.gantt-bar-progress');
+            const outerBar = this.closest('.gantt-row').querySelector('.gantt-bar');
+            
+            // Remove previous glows
+            outerBar.classList.remove("planning-glow", "dev-glow", "testing-glow", "live-glow");
+            
+            let progressWidth = "10%";
+            if (status === "planning") {
+                progressWidth = "10%";
+                outerBar.classList.add("planning-glow");
+            } else if (status === "development") {
+                progressWidth = "40%";
+                outerBar.classList.add("dev-glow");
+            } else if (status === "testing") {
+                progressWidth = "75%";
+                outerBar.classList.add("testing-glow");
+            } else if (status === "live") {
+                progressWidth = "100%";
+                outerBar.classList.add("live-glow");
+            }
+            bar.style.width = progressWidth;
+            
+            // Cross tab refresh trigger: update map dashboard immediately if active!
+            if (window.triggerMapUpdate) {
+                window.triggerMapUpdate();
+            }
+            
+            // Highlight row briefly to confirm state change
+            const row = this.closest('.gantt-row');
+            row.style.backgroundColor = "rgba(57, 255, 20, 0.04)";
+            setTimeout(() => {
+                row.style.backgroundColor = "transparent";
+            }, 600);
+        });
+        
+        // Trigger initial paint
+        select.dispatchEvent(new Event("change"));
+    });
+
+    // Quarter Buttons Click Handler
+    quarterBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+            quarterBtns.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            
+            const selectedQ = btn.getAttribute("data-quarter");
+            
+            // 1. Highlight relevant column headers
+            timelineColHeaders.forEach(header => {
+                const headerQ = header.getAttribute("data-q");
+                if (selectedQ === "all" || headerQ === selectedQ) {
+                    header.classList.add("active-col");
+                } else {
+                    header.classList.remove("active-col");
+                }
+            });
+            
+            // 2. Dim irrelevant Gantt rows
+            ganttRows.forEach(row => {
+                const activeQs = row.getAttribute("data-active-quarters").split(",");
+                if (selectedQ === "all" || activeQs.includes(selectedQ)) {
+                    row.classList.remove("dimmed");
+                } else {
+                    row.classList.add("dimmed");
+                }
+            });
+            
+            // 3. Update Milestone display details
+            const brief = milestoneBriefs[selectedQ];
+            if (brief && milestoneTitle) {
+                // Smooth fade transition
+                milestoneBox.style.opacity = "0";
+                milestoneBox.style.transform = "scale(0.98)";
+                
+                setTimeout(() => {
+                    milestoneTitle.innerHTML = brief.title;
+                    milestoneDesc.innerHTML = brief.desc;
+                    milestoneBox.style.opacity = "1";
+                    milestoneBox.style.transform = "scale(1)";
+                }, 200);
+            }
+        });
+    });
 
     // Initialize with default role (Supply Chain)
     updatePromptView("supply-chain");

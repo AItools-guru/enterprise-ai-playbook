@@ -782,3 +782,134 @@ input[type="range"]::-webkit-slider-thumb:hover {
     background: rgba(255, 255, 255, 0.04) !important;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 0 15px rgba(88, 166, 255, 0.1);
 }
+
+/* ==========================================================================
+   ROADMAP & GANTT CHART PREMIUM STYLING
+   ========================================================================== */
+.roadmap-card {
+    border: 1px solid var(--border-color);
+    background: rgba(13, 17, 23, 0.4);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+.quarter-btn {
+    padding: 6px 14px;
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--text-secondary);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.quarter-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.quarter-btn.active {
+    background: var(--accent-cyan);
+    color: #0b0e14 !important;
+    border-color: var(--accent-cyan);
+    font-weight: 700;
+    box-shadow: 0 0 12px var(--accent-cyan-glow);
+}
+
+.timeline-col-header {
+    transition: all 0.3s ease;
+    padding-bottom: 6px;
+    border-bottom: 2px solid transparent;
+}
+
+.timeline-col-header.active-col {
+    color: var(--accent-cyan) !important;
+    border-bottom-color: var(--accent-cyan);
+    text-shadow: 0 0 10px var(--accent-cyan-glow);
+}
+
+.gantt-row {
+    transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s ease, background-color 0.3s ease;
+    border-radius: 8px;
+}
+
+.gantt-row:hover {
+    background-color: rgba(255, 255, 255, 0.02) !important;
+    transform: translateX(4px);
+}
+
+.gantt-row.dimmed {
+    opacity: 0.15;
+    filter: blur(0.5px);
+}
+
+.gantt-status-select {
+    outline: none;
+    font-weight: 600;
+    transition: all 0.25s ease;
+}
+
+.gantt-status-select:hover {
+    background: #1f242c !important;
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.gantt-status-select:focus {
+    border-color: var(--accent-cyan) !important;
+    box-shadow: 0 0 8px var(--accent-cyan-glow);
+}
+
+/* Pulsing/Shimmering progress effect for active development or testing */
+.gantt-bar {
+    overflow: hidden;
+    position: relative;
+}
+
+.gantt-bar-progress {
+    background-size: 30px 30px;
+    background-image: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.15) 25%,
+        transparent 25%,
+        transparent 50%,
+        rgba(255, 255, 255, 0.15) 50%,
+        rgba(255, 255, 255, 0.15) 75%,
+        transparent 75%,
+        transparent
+    );
+    animation: gantt-bar-shimmer 2s linear infinite;
+}
+
+@keyframes gantt-bar-shimmer {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 60px 0;
+    }
+}
+
+/* Status specific glows on parent bars */
+.gantt-bar.planning-glow {
+    box-shadow: 0 0 6px rgba(139, 148, 158, 0.2);
+}
+
+.gantt-bar.dev-glow {
+    box-shadow: 0 0 10px rgba(88, 166, 255, 0.3) !important;
+}
+
+.gantt-bar.testing-glow {
+    box-shadow: 0 0 12px rgba(255, 215, 0, 0.3) !important;
+}
+
+.gantt-bar.live-glow {
+    box-shadow: 0 0 16px rgba(57, 255, 20, 0.5) !important;
+    background: linear-gradient(90deg, #39ff14, #00ffcc) !important;
+}
+
+#milestone-detail-box {
+    border-color: var(--border-color);
+    background: rgba(255, 255, 255, 0.015);
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+}
