@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // ---------------------------------------------------------
-    // 2. Interactive ROI Simulator Calculations
+    // 2. Interactive ROI Simulator & Canvas Chart Engine
     // ---------------------------------------------------------
     const inputTeamSize = document.getElementById("team-size");
     const inputHourlyRate = document.getElementById("hourly-rate");
@@ -38,6 +38,135 @@ document.addEventListener("DOMContentLoaded", () => {
     const kpiProductivity = document.getElementById("kpi-productivity");
     const kpiBreakeven = document.getElementById("kpi-breakeven");
     const roiNarrative = document.getElementById("roi-narrative");
+    const roiChart = document.getElementById("roi-chart");
+
+    function drawROIChart(teamSize, hourlyRate, automationRate, toolCost, hoursSaved, netMonthlySavings) {
+        if (!roiChart) return;
+        const ctx = roiChart.getContext("2d");
+        
+        // Handle High-DPI screens
+        const width = roiChart.clientWidth;
+        const height = roiChart.clientHeight;
+        if (roiChart.width !== width || roiChart.height !== height) {
+            roiChart.width = width;
+            roiChart.height = height;
+        }
+
+        ctx.clearRect(0, 0, width, height);
+
+        // Core chart settings
+        const paddingLeft = 50;
+        const paddingRight = 20;
+        const paddingTop = 20;
+        const paddingBottom = 30;
+        const chartWidth = width - paddingLeft - paddingRight;
+        const chartHeight = height - paddingTop - paddingBottom;
+
+        // Draw grid lines
+        ctx.strokeStyle = "rgba(48, 54, 61, 0.3)";
+        ctx.lineWidth = 1;
+        ctx.font = "10px Inter";
+        ctx.fillStyle = "#8b949e";
+        
+        // Horizontal lines (y-axis grid)
+        const yLines = 4;
+        for (let i = 0; i <= yLines; i++) {
+            const y = paddingTop + (chartHeight / yLines) * i;
+            ctx.beginPath();
+            ctx.moveTo(paddingLeft, y);
+            ctx.lineTo(width - paddingRight, y);
+            ctx.stroke();
+        }
+
+        // Vertical lines & Month labels (x-axis grid)
+        const totalMonths = 12;
+        for (let m = 1; m <= totalMonths; m++) {
+            const x = paddingLeft + (chartWidth / (totalMonths - 1)) * (m - 1);
+            ctx.fillText(`M${m}`, x - 8, height - 10);
+        }
+
+        // Calculate Data Points over 12 Months
+        // Setup Cost = 1.5 months of tool subscription cost
+        const monthlyToolCost = teamSize * toolCost;
+        const setupCost = monthlyToolCost * 1.5;
+        const monthlyLaborSavings = hoursSaved * hourlyRate;
+
+        const cumulativeCost = [];
+        const cumulativeSavings = [];
+        
+        for (let m = 0; m < totalMonths; m++) {
+            cumulativeCost.push(setupCost + (m * monthlyToolCost));
+            cumulativeSavings.push(m * monthlyLaborSavings);
+        }
+
+        const maxVal = Math.max(
+            Math.max(...cumulativeCost),
+            Math.max(...cumulativeSavings),
+            1000
+        );
+
+        // Map Value to Canvas Y coordinate
+        function mapY(val) {
+            return height - paddingBottom - (val / maxVal) * chartHeight;
+        }
+
+        // Map Month to Canvas X coordinate
+        function mapX(mIndex) {
+            return paddingLeft + (chartWidth / (totalMonths - 1)) * mIndex;
+        }
+
+        // 1. Draw Cumulative Implementation Cost Line (Cobalt Blue/Purple)
+        ctx.strokeStyle = "#bc39fa";
+        ctx.lineWidth = 2;
+        ctx.setLineDash([4, 4]);
+        ctx.beginPath();
+        ctx.moveTo(mapX(0), mapY(cumulativeCost[0]));
+        for (let m = 1; m < totalMonths; m++) {
+            ctx.lineTo(mapX(m), mapY(cumulativeCost[m]));
+        }
+        ctx.stroke();
+        ctx.setLineDash([]); // Reset dash pattern
+
+        // 2. Draw Cumulative Human Labor Savings Line (Glowing Neon Green)
+        ctx.strokeStyle = "#39ff14";
+        ctx.lineWidth = 3;
+        ctx.shadowColor = "#39ff14";
+        ctx.shadowBlur = 6;
+        ctx.beginPath();
+        ctx.moveTo(mapX(0), mapY(cumulativeSavings[0]));
+        for (let m = 1; m < totalMonths; m++) {
+            ctx.lineTo(mapX(m), mapY(cumulativeSavings[m]));
+        }
+        ctx.stroke();
+        ctx.shadowBlur = 0; // Reset shadow
+
+        // 3. Draw Breakeven Point Indicator
+        if (monthlyLaborSavings > monthlyToolCost) {
+            const breakevenMonth = setupCost / (monthlyLaborSavings - monthlyToolCost);
+            if (breakevenMonth > 0 && breakevenMonth <= totalMonths) {
+                const intersectX = paddingLeft + (chartWidth / (totalMonths - 1)) * (breakevenMonth - 1);
+                const intersectVal = setupCost + ((breakevenMonth - 1) * monthlyToolCost);
+                const intersectY = mapY(intersectVal);
+
+                // Draw glowing outer halo ring
+                ctx.fillStyle = "rgba(57, 255, 20, 0.2)";
+                ctx.beginPath();
+                ctx.arc(intersectX, intersectY, 10, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Draw solid center dot
+                ctx.fillStyle = "#ffd700";
+                ctx.beginPath();
+                ctx.arc(intersectX, intersectY, 5, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Draw tiny intersection label
+                ctx.fillStyle = "#fff";
+                ctx.font = "bold 9px Inter";
+                ctx.fillText("Breakeven", intersectX - 24, intersectY - 14);
+            }
+        }
+    }
 
     function calculateROI() {
         const teamSize = parseInt(inputTeamSize.value);
@@ -52,10 +181,7 @@ document.addEventListener("DOMContentLoaded", () => {
         valToolCost.textContent = `$${toolCost}`;
 
         // Calculations
-        // Baseline: 160 working hours per month per employee
         const monthlyWorkHours = 160;
-        
-        // AI saves a portion of their manual workflow. If automated is 35%, they gain 40% efficiency compression on those tasks.
         const taskEfficiencyCompression = 0.5; // 50% faster on automated tasks
         const hoursSaved = Math.round(teamSize * monthlyWorkHours * automationRate * taskEfficiencyCompression);
         
@@ -65,11 +191,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const netMonthlySavings = totalLaborSavings - totalImplementationCost;
         
         // Productivity Multiplier
-        // Productive capacity scale = 1 / (1 - (automationRate * taskEfficiencyCompression))
         const capacityMultiplier = (1 / (1 - (automationRate * taskEfficiencyCompression))).toFixed(2);
         
-        // Payback / Breakeven (in months)
-        // Assume initial training/setup time costs are equal to 1.5 months of tool subscription costs
+        // Payback / Breakeven
         const setupCost = totalImplementationCost * 1.5;
         let breakevenMonths = 0;
         if (netMonthlySavings > 0) {
@@ -86,18 +210,21 @@ document.addEventListener("DOMContentLoaded", () => {
             kpiNetSavings.parentElement.parentElement.className = "kpi-card glow-green";
         } else {
             kpiNetSavings.textContent = `-$${Math.abs(netMonthlySavings).toLocaleString()}`;
-            kpiNetSavings.parentElement.parentElement.className = "kpi-card glow-purple"; // Glow red/purple for negative
+            kpiNetSavings.parentElement.parentElement.className = "kpi-card glow-purple";
         }
         
         kpiProductivity.textContent = `${capacityMultiplier}x`;
         kpiBreakeven.textContent = breakevenMonths === "∞" ? "Infinite" : `${breakevenMonths} Months`;
 
-        // Update Narrative dynamically based on ROI strength
+        // Update Narrative
         if (netMonthlySavings <= 0) {
             roiNarrative.innerHTML = `<span style="color: #ff5f56; font-weight: 600;"><i class="fa-solid fa-triangle-exclamation"></i> Alert:</span> Your subscription costs exceed labor savings. Recommend lowering the Tool Cost slider or targeting higher automation tasks to achieve positive operational ROI.`;
         } else {
             roiNarrative.innerHTML = `<span style="color: #39ff14; font-weight: 600;"><i class="fa-solid fa-circle-check"></i> Operational Match:</span> Implementing AI across <strong>${teamSize} reps</strong> generates a capacity equivalent to adding <strong>${Math.round(hoursSaved / monthlyWorkHours)} full-time operators</strong> to your squad—fully paid off in <strong>${breakevenMonths} months</strong>.`;
         }
+
+        // Render interactive line chart live!
+        drawROIChart(teamSize, hourlyRate, parseInt(inputAutomationRate.value), toolCost, hoursSaved, netMonthlySavings);
     }
 
     // Sliders Event Listeners
@@ -107,6 +234,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Initialize Calculations
     calculateROI();
+
+    // Trigger redrawing chart on window resize
+    window.addEventListener("resize", calculateROI);
+
 
     // ---------------------------------------------------------
     // 3. Prompt Catalog & Sandboxed LLM Simulator Data
@@ -473,4 +604,82 @@ ORDER BY s.actual_transit_days DESC;
 
     // Initialize with default role (Supply Chain)
     updatePromptView("supply-chain");
+
+    // ---------------------------------------------------------
+    // 5. Interactive SVG Map Selection Logic (100% Standalone)
+    // ---------------------------------------------------------
+    const nodes = {
+        "seattle": {
+            title: "<i class='fa-solid fa-satellite-dish'></i> Seattle Cloud Data & Supply Chain Hub",
+            desc: "Focuses on international shipping lane analytics, logistics risk mitigation, and automated safety stock calculation engines.",
+            stats: [
+                "↓ 18% shipping delay",
+                "Llama-3-Agent",
+                "$4,650 /mo",
+                "14 Minutes"
+            ]
+        },
+        "sf": {
+            title: "<i class='fa-solid fa-brain'></i> San Francisco AI & Product Strategy Hub",
+            desc: "Serves as the central product intelligence center, analyzing JTBD customer reviews, competitive metrics, and RICE feature scoring models.",
+            stats: [
+                "↓ 60% discovery lag",
+                "Claude-3.5-Sonnet",
+                "$9,200 /mo",
+                "4 Minutes"
+            ]
+        },
+        "chicago": {
+            title: "<i class='fa-solid fa-users-line'></i> Chicago Agile Scrum & Operations Node",
+            desc: "Responsible for sprint lifecycle metrics, milestone dependency mapping, critical path risk log auditing, and Agile backlog readiness guides.",
+            stats: [
+                "↑ 250% sprint readiness",
+                "Llama-3-70B",
+                "$6,150 /mo",
+                "8 Minutes"
+            ]
+        },
+        "austin": {
+            title: "<i class='fa-solid fa-rectangle-list'></i> Austin Code Refactoring & Software Scaling Hub",
+            desc: "Manages data warehouse modeling (Star Schema SQL), database index tuning, query complexity auditing (Big-O analysis), and ETL pipeline execution.",
+            stats: [
+                "↓ 40% code review lag",
+                "GPT-4o-Coder",
+                "$8,400 /mo",
+                "5 Minutes"
+            ]
+        }
+    };
+
+    const mapNodes = document.querySelectorAll(".map-node");
+    const nodeDetailTitle = document.getElementById("node-detail-title");
+    const nodeDetailDesc = document.getElementById("node-detail-desc");
+    const nodeStat1 = document.getElementById("node-stat-1");
+    const nodeStat2 = document.getElementById("node-stat-2");
+    const nodeStat3 = document.getElementById("node-stat-3");
+    const nodeStat4 = document.getElementById("node-stat-4");
+
+    mapNodes.forEach(node => {
+        node.addEventListener("click", () => {
+            // Remove active state from all nodes
+            mapNodes.forEach(n => n.classList.remove("active"));
+            
+            // Add active state to clicked node
+            node.classList.add("active");
+            
+            // Fetch node key from ID (e.g. "node-sf" -> "sf")
+            const nodeKey = node.id.replace("node-", "");
+            const data = nodes[nodeKey];
+            
+            if (data) {
+                // Update text details dynamically with smooth rendering
+                nodeDetailTitle.innerHTML = data.title;
+                nodeDetailDesc.textContent = data.desc;
+                nodeStat1.textContent = data.stats[0];
+                nodeStat2.textContent = data.stats[1];
+                nodeStat3.textContent = data.stats[2];
+                nodeStat4.textContent = data.stats[3];
+            }
+        });
+    });
 });

@@ -37,6 +37,10 @@
                         <i class="fa-solid fa-layer-group"></i>
                         <span>Strategy Matrix</span>
                     </li>
+                    <li class="nav-item" data-tab="operations-map">
+                        <i class="fa-solid fa-earth-americas"></i>
+                        <span>Global Nodes</span>
+                    </li>
                 </ul>
             </nav>
             <div class="sidebar-footer">
@@ -136,6 +140,15 @@
                                     <span class="kpi-label">Breakeven Horizon</span>
                                     <h2 class="kpi-value" id="kpi-breakeven">0.0 Months</h2>
                                 </div>
+                            </div>
+                        </div>
+
+                        <!-- ROI Trend Chart Card -->
+                        <div class="card chart-card" style="margin-bottom: 24px;">
+                            <h3><i class="fa-solid fa-chart-area"></i> 12-Month Cumulative Savings Forecast</h3>
+                            <p class="card-desc" style="margin-bottom: 12px;">Real-time projection of subscription costs vs. human labor savings. The green dot marks the exact breakeven month.</p>
+                            <div class="canvas-container" style="position: relative; height: 180px; width: 100%;">
+                                <canvas id="roi-chart" height="180" style="width: 100%; height: 100%; display: block;"></canvas>
                             </div>
                         </div>
 
@@ -299,6 +312,128 @@
                                 </tr>
                             </tbody>
                         </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab Content: Global Operations Map -->
+            <section id="operations-map" class="tab-panel">
+                <div class="dashboard-grid">
+                    <!-- Left: Interactive SVG Map Grid -->
+                    <div class="card map-card" style="padding: 20px;">
+                        <h3><i class="fa-solid fa-map-location-dot"></i> Live AI Operations Grid</h3>
+                        <p class="card-desc" style="margin-bottom: 16px;">Click on any pulsing neon node on the US map to audit its live AI operational metrics and role enablement diagnostics.</p>
+                        
+                        <div class="map-container" style="background: rgba(0, 0, 0, 0.2); border: 1px solid var(--border-color); border-radius: 12px; padding: 10px; display: flex; align-items: center; justify-content: center; position: relative;">
+                            <!-- Styled SVG US Operations Map -->
+                            <svg viewBox="0 0 500 300" width="100%" height="100%" style="display: block;">
+                                <!-- Grid Lines Background -->
+                                <defs>
+                                    <pattern id="map-grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                                        <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(48, 54, 61, 0.25)" stroke-width="1"/>
+                                    </pattern>
+                                    <!-- Glow Filters -->
+                                    <filter id="glow-gold" x="-50%" y="-50%" width="200%" height="200%">
+                                        <feGaussianBlur stdDeviation="5" result="blur" />
+                                        <feMerge>
+                                            <feMergeNode in="blur" />
+                                            <feMergeNode in="SourceGraphic" />
+                                        </feMerge>
+                                    </filter>
+                                    <filter id="glow-cyan" x="-50%" y="-50%" width="200%" height="200%">
+                                        <feGaussianBlur stdDeviation="5" result="blur" />
+                                        <feMerge>
+                                            <feMergeNode in="blur" />
+                                            <feMergeNode in="SourceGraphic" />
+                                        </feMerge>
+                                    </filter>
+                                </defs>
+                                <rect width="100%" height="100%" fill="url(#map-grid)" />
+                                
+                                <!-- Abstract US Boundary Outline (Sleek Stylized Tech-Geom Representation) -->
+                                <path d="M 50,60 L 120,40 L 220,50 L 320,40 L 400,60 L 450,50 L 430,120 L 460,180 L 420,240 L 350,250 L 300,280 L 220,270 L 150,220 L 80,180 Z" 
+                                      fill="none" stroke="rgba(88, 166, 255, 0.15)" stroke-width="2" stroke-dasharray="5,5"/>
+
+                                <!-- Connection Lanes (Data Flows) -->
+                                <path d="M 80,70 Q 250,50 360,100" fill="none" stroke="rgba(88, 166, 255, 0.12)" stroke-width="2" stroke-dasharray="4,4"/>
+                                <path d="M 60,120 Q 180,190 280,220" fill="none" stroke="rgba(88, 166, 255, 0.12)" stroke-width="2" stroke-dasharray="4,4"/>
+                                <path d="M 280,220 L 360,100" fill="none" stroke="rgba(255, 215, 0, 0.12)" stroke-width="2" stroke-dasharray="4,4"/>
+                                <path d="M 80,70 L 60,120" fill="none" stroke="rgba(255, 215, 0, 0.12)" stroke-width="2" stroke-dasharray="4,4"/>
+
+                                <!-- 1. SEATTLE NODE (Supply Chain Hub) -->
+                                <g class="map-node active" id="node-seattle" cursor="pointer">
+                                    <circle cx="80" cy="70" r="14" fill="rgba(88, 166, 255, 0.15)" stroke="rgba(88, 166, 255, 0.3)" stroke-width="1"/>
+                                    <circle cx="80" cy="70" r="8" fill="none" stroke="rgba(88, 166, 255, 0.6)" stroke-width="2" class="pulse-ring"/>
+                                    <circle cx="80" cy="70" r="4" fill="#58a6ff" filter="url(#glow-cyan)"/>
+                                    <text x="80" y="52" fill="#8b949e" font-size="10" font-weight="700" text-anchor="middle" font-family="Inter">Seattle Hub</text>
+                                </g>
+
+                                <!-- 2. SAN FRANCISCO NODE (Product & AI PM) -->
+                                <g class="map-node" id="node-sf" cursor="pointer">
+                                    <circle cx="60" cy="120" r="14" fill="rgba(255, 215, 0, 0.15)" stroke="rgba(255, 215, 0, 0.3)" stroke-width="1"/>
+                                    <circle cx="60" cy="120" r="8" fill="none" stroke="rgba(255, 215, 0, 0.6)" stroke-width="2" class="pulse-ring"/>
+                                    <circle cx="60" cy="120" r="4" fill="#ffd700" filter="url(#glow-gold)"/>
+                                    <text x="60" y="142" fill="#8b949e" font-size="10" font-weight="700" text-anchor="middle" font-family="Inter">San Francisco</text>
+                                </g>
+
+                                <!-- 3. CHICAGO NODE (Agile Operations) -->
+                                <g class="map-node" id="node-chicago" cursor="pointer">
+                                    <circle cx="360" cy="100" r="14" fill="rgba(88, 166, 255, 0.15)" stroke="rgba(88, 166, 255, 0.3)" stroke-width="1"/>
+                                    <circle cx="360" cy="100" r="8" fill="none" stroke="rgba(88, 166, 255, 0.6)" stroke-width="2" class="pulse-ring"/>
+                                    <circle cx="360" cy="100" r="4" fill="#58a6ff" filter="url(#glow-cyan)"/>
+                                    <text x="360" y="82" fill="#8b949e" font-size="10" font-weight="700" text-anchor="middle" font-family="Inter">Chicago Node</text>
+                                </g>
+
+                                <!-- 4. AUSTIN NODE (Software Scaling) -->
+                                <g class="map-node" id="node-austin" cursor="pointer">
+                                    <circle cx="280" cy="220" r="14" fill="rgba(255, 215, 0, 0.15)" stroke="rgba(255, 215, 0, 0.3)" stroke-width="1"/>
+                                    <circle cx="280" cy="220" r="8" fill="none" stroke="rgba(255, 215, 0, 0.6)" stroke-width="2" class="pulse-ring"/>
+                                    <circle cx="280" cy="220" r="4" fill="#ffd700" filter="url(#glow-gold)"/>
+                                    <text x="280" y="242" fill="#8b949e" font-size="10" font-weight="700" text-anchor="middle" font-family="Inter">Austin Node</text>
+                                </g>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- Right: Node Diagnostics Card -->
+                    <div class="card diagnostics-card" style="padding: 24px;">
+                        <h3 id="node-detail-title"><i class="fa-solid fa-satellite-dish"></i> Seattle Cloud Data & Supply Chain Hub</h3>
+                        <p class="card-desc" id="node-detail-desc">Focuses on international shipping lane analytics, logistics risk mitigation, and automated safety stock calculation engines.</p>
+                        
+                        <div class="kpi-panel" style="margin-top: 10px;">
+                            <div class="kpi-row">
+                                <div class="kpi-card glow-blue" style="padding: 16px;">
+                                    <div class="kpi-icon" style="width: 44px; height: 44px; font-size: 16px;"><i class="fa-solid fa-network-wired"></i></div>
+                                    <div class="kpi-data">
+                                        <span class="kpi-label" style="font-size: 10px;">Operational Velocity</span>
+                                        <h2 class="kpi-value" id="node-stat-1" style="font-size: 20px;">↓ 18% shipping delay</h2>
+                                    </div>
+                                </div>
+                                <div class="kpi-card glow-green" style="padding: 16px;">
+                                    <div class="kpi-icon" style="width: 44px; height: 44px; font-size: 16px;"><i class="fa-solid fa-microchip"></i></div>
+                                    <div class="kpi-data">
+                                        <span class="kpi-label" style="font-size: 10px;">AI Model Integration</span>
+                                        <h2 class="kpi-value" id="node-stat-2" style="font-size: 20px;">Llama-3-Agent</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="kpi-row">
+                                <div class="kpi-card glow-gold" style="padding: 16px;">
+                                    <div class="kpi-icon" style="width: 44px; height: 44px; font-size: 16px;"><i class="fa-solid fa-scale-balanced"></i></div>
+                                    <div class="kpi-data">
+                                        <span class="kpi-label" style="font-size: 10px;">Monthly Net ROI Contribution</span>
+                                        <h2 class="kpi-value" id="node-stat-3" style="font-size: 20px;">$4,650 /mo</h2>
+                                    </div>
+                                </div>
+                                <div class="kpi-card glow-purple" style="padding: 16px;">
+                                    <div class="kpi-icon" style="width: 44px; height: 44px; font-size: 16px;"><i class="fa-solid fa-clock-rotate-left"></i></div>
+                                    <div class="kpi-data">
+                                        <span class="kpi-label" style="font-size: 10px;">AI Task Latency</span>
+                                        <h2 class="kpi-value" id="node-stat-4" style="font-size: 20px;">14 Minutes</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
