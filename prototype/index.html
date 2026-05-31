@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise AI Playbook & Interactive ROI Simulator</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-icon"><i class="fa-solid fa-brain"></i></div>
+                <div class="logo-text">
+                    <h2>odp</h2>
+                    <span>AI Solutions</span>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item active" data-tab="roi-calculator">
+                        <i class="fa-solid fa-calculator"></i>
+                        <span>ROI Simulator</span>
+                    </li>
+                    <li class="nav-item" data-tab="prompt-catalog">
+                        <i class="fa-solid fa-terminal"></i>
+                        <span>Prompt Console</span>
+                    </li>
+                    <li class="nav-item" data-tab="strategy-matrix">
+                        <i class="fa-solid fa-layer-group"></i>
+                        <span>Strategy Matrix</span>
+                    </li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="author-card">
+                    <p>Designed By</p>
+                    <strong>Saurabh Shidhore</strong>
+                    <span>AI & BI Operations Lead</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="app-header">
+                <div class="header-title">
+                    <h1>Enterprise AI Strategy & Operations Suite</h1>
+                    <p>Unlock measurable business value, automate complex workflows, and track AI Return on Investment (ROI).</p>
+                </div>
+                <div class="header-badges">
+                    <span class="badge"><i class="fa-solid fa-shield-halved"></i> ZDR Enterprise API</span>
+                    <span class="badge yellow"><i class="fa-solid fa-bolt"></i> GenAI Enabled</span>
+                </div>
+            </header>
+
+            <!-- Tab Content: ROI Calculator -->
+            <section id="roi-calculator" class="tab-panel active">
+                <div class="dashboard-grid">
+                    <!-- Left: Control Sliders -->
+                    <div class="card control-card">
+                        <h3><i class="fa-solid fa-sliders"></i> Implementation Parameters</h3>
+                        <p class="card-desc">Adjust the variables to model the operational cost and labor savings of AI deployment.</p>
+                        
+                        <div class="slider-group">
+                            <div class="slider-header">
+                                <label for="team-size">Team Size (Reps/Analysts)</label>
+                                <span class="slider-val" id="val-team-size">15</span>
+                            </div>
+                            <input type="range" id="team-size" min="5" max="100" value="15" step="1">
+                        </div>
+
+                        <div class="slider-group">
+                            <div class="slider-header">
+                                <label for="hourly-rate">Average Blended Hourly Rate ($)</label>
+                                <span class="slider-val" id="val-hourly-rate">$55</span>
+                            </div>
+                            <input type="range" id="hourly-rate" min="20" max="150" value="55" step="5">
+                        </div>
+
+                        <div class="slider-group">
+                            <div class="slider-header">
+                                <label for="automation-rate">AI Task Automation Rate (%)</label>
+                                <span class="slider-val" id="val-automation-rate">35%</span>
+                            </div>
+                            <input type="range" id="automation-rate" min="10" max="90" value="35" step="5">
+                        </div>
+
+                        <div class="slider-group">
+                            <div class="slider-header">
+                                <label for="tool-cost">AI Tool SaaS Subscriptions ($/mo)</label>
+                                <span class="slider-val" id="val-tool-cost">$250</span>
+                            </div>
+                            <input type="range" id="tool-cost" min="50" max="2000" value="250" step="50">
+                        </div>
+                    </div>
+
+                    <!-- Right: KPI Scorecards -->
+                    <div class="kpi-panel">
+                        <div class="kpi-row">
+                            <div class="kpi-card glow-blue">
+                                <div class="kpi-icon"><i class="fa-solid fa-business-time"></i></div>
+                                <div class="kpi-data">
+                                    <span class="kpi-label">Hours Saved / Month</span>
+                                    <h2 class="kpi-value" id="kpi-hours-saved">0</h2>
+                                </div>
+                            </div>
+                            <div class="kpi-card glow-green">
+                                <div class="kpi-icon"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+                                <div class="kpi-data">
+                                    <span class="kpi-label">Net Monthly Savings</span>
+                                    <h2 class="kpi-value" id="kpi-net-savings">$0</h2>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="kpi-row">
+                            <div class="kpi-card glow-gold">
+                                <div class="kpi-icon"><i class="fa-solid fa-chart-line"></i></div>
+                                <div class="kpi-data">
+                                    <span class="kpi-label">Productivity Multiplier</span>
+                                    <h2 class="kpi-value" id="kpi-productivity">0x</h2>
+                                </div>
+                            </div>
+                            <div class="kpi-card glow-purple">
+                                <div class="kpi-icon"><i class="fa-solid fa-calendar-check"></i></div>
+                                <div class="kpi-data">
+                                    <span class="kpi-label">Breakeven Horizon</span>
+                                    <h2 class="kpi-value" id="kpi-breakeven">0.0 Months</h2>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Savings Explanation Card -->
+                        <div class="card info-card">
+                            <h3><i class="fa-solid fa-magnifying-glass-chart"></i> ROI Analysis Summary</h3>
+                            <div class="explanation-content">
+                                <p id="roi-narrative">Calculated savings are based on standard industry operations where automated prompts compress manual repetitive tasks, allowing your team to refocus on high-value analytics.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab Content: Prompt Catalog -->
+            <section id="prompt-catalog" class="tab-panel">
+                <div class="prompt-grid">
+                    <!-- Left Sidebar: Role Tabs -->
+                    <div class="card role-selector-card">
+                        <h3><i class="fa-solid fa-users-gear"></i> Select Operational Role</h3>
+                        <p class="card-desc">Click a role to load its custom enterprise prompt and see how it operates.</p>
+                        <div class="role-list">
+                            <button class="role-btn active" data-role="supply-chain">
+                                <i class="fa-solid fa-box"></i>
+                                <span>📦 Supply Chain Analyst</span>
+                            </button>
+                            <button class="role-btn" data-role="product-manager">
+                                <i class="fa-solid fa-chess-knight"></i>
+                                <span>📋 Product Manager</span>
+                            </button>
+                            <button class="role-btn" data-role="product-owner">
+                                <i class="fa-solid fa-clipboard-check"></i>
+                                <span>📋 Product Owner</span>
+                            </button>
+                            <button class="role-btn" data-role="project-manager">
+                                <i class="fa-solid fa-diagram-project"></i>
+                                <span>📋 Project Manager</span>
+                            </button>
+                            <button class="role-btn" data-role="business-analyst">
+                                <i class="fa-solid fa-bolt"></i>
+                                <span>⚡ Business Analyst</span>
+                            </button>
+                            <button class="role-btn" data-role="software-engineer">
+                                <i class="fa-solid fa-code"></i>
+                                <span>💻 Software Engineer</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Right Main: Prompt Details & Sandbox Terminal -->
+                    <div class="prompt-sandbox-container">
+                        <!-- Card 1: System Prompt -->
+                        <div class="card prompt-card">
+                            <div class="prompt-card-header">
+                                <h3 id="prompt-role-title">📦 Supply Chain Analyst</h3>
+                                <button class="btn btn-copy" id="btn-copy-prompt"><i class="fa-regular fa-copy"></i> Copy Prompt</button>
+                            </div>
+                            <div class="code-container">
+                                <pre><code class="language-markdown" id="prompt-content-code">Loading...</code></pre>
+                            </div>
+                        </div>
+
+                        <!-- Card 2: Interactive Terminal Simulator -->
+                        <div class="card terminal-card">
+                            <div class="terminal-header">
+                                <div class="terminal-dots">
+                                    <span class="dot red"></span>
+                                    <span class="dot yellow"></span>
+                                    <span class="dot green"></span>
+                                </div>
+                                <span class="terminal-title">Llama-3 Enterprise AI Execution Sandbox</span>
+                                <button class="btn btn-run" id="btn-run-simulation"><i class="fa-solid fa-play"></i> Simulate AI Execution</button>
+                            </div>
+                            <div class="terminal-body" id="terminal-screen">
+                                <p class="sys-msg">[System] Ready to run AI diagnostics...</p>
+                                <p class="sys-msg">[System] Click 'Simulate AI Execution' above to test the prompt against live business data models.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab Content: Strategy Matrix -->
+            <section id="strategy-matrix" class="tab-panel">
+                <div class="card matrix-card">
+                    <h3><i class="fa-solid fa-layer-group"></i> Enterprise AI Capability Framework</h3>
+                    <p class="card-desc">A professional organizational blueprint outlining how AI prompts resolve critical pipeline bottlenecks and map directly to corporate KPIs.</p>
+                    
+                    <div class="table-responsive">
+                        <table class="strategy-table">
+                            <thead>
+                                <tr>
+                                    <th>Role & Function</th>
+                                    <th>Core Pipeline Bottleneck</th>
+                                    <th>Applied AI System Prompt</th>
+                                    <th>Expected Efficiency Gain</th>
+                                    <th>Strategic Target KPI</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>📦 Supply Chain Analyst</strong></td>
+                                    <td>Manual evaluation of international route disruptions and port congestion risks.</td>
+                                    <td>Logistics Anomaly & Safety Stock Buffer Adjuster</td>
+                                    <td class="text-green">⚡ 40% time savings</td>
+                                    <td><strong>↓ 18% Shipping Delays</strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>📋 Product Manager</strong></td>
+                                    <td>Compiling and sorting scattered customer reviews and feature feedback loops.</td>
+                                    <td>JTBD Feature Classifier & Opportunity Synthesizer</td>
+                                    <td class="text-green">⚡ 60% acceleration</td>
+                                    <td><strong>↓ 60% Discovery Time</strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>📋 Product Owner</strong></td>
+                                    <td>Drafting and formatting backlog items, user stories, and acceptance criteria.</td>
+                                    <td>Given-When-Then Gherkin Story Generator</td>
+                                    <td class="text-green">⚡ 3.5x throughput</td>
+                                    <td><strong>↑ 250% Backlog Readiness</strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>📋 Project Manager</strong></td>
+                                    <td>Manual tracking of project milestone risk severities and critical path lines.</td>
+                                    <td>Operational Dependency Risk Matrix Auditor</td>
+                                    <td class="text-green">⚡ 30% risk mitigation</td>
+                                    <td><strong>↓ 15% Execution Lag</strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>⚡ Business Analyst</strong></td>
+                                    <td>Sifting through raw CRM databases to identify pipeline leakages and cohort churn.</td>
+                                    <td>Revenue Operations (RevOps) Diagnostic Interpreter</td>
+                                    <td class="text-green">⚡ 25% faster insights</td>
+                                    <td><strong>↑ 12% Customer Retention</strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>💻 Software Engineer</strong></td>
+                                    <td>Code review queues, database indexing bottlenecks, and query optimization stalls.</td>
+                                    <td>Database Query Refactoring & Scalability Auditor</td>
+                                    <td class="text-green">⚡ 40% cycle time drop</td>
+                                    <td><strong>↓ 40% PR Review Lag</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="app.js"></script>
+</body>
+</html>
