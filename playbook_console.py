@@ -353,7 +353,7 @@ def menu():
     while True:
         os.system('clear' if os.name == 'posix' else 'cls')
         print(f"{Colors.BOLD}{Colors.GOLD}============================================================{Colors.ENDC}")
-        print(f"{Colors.BOLD}{Colors.CYAN}       ODP Business Solutions — Enterprise AI Playbook{Colors.ENDC}")
+        print(f"{Colors.BOLD}{Colors.CYAN}       AItools-guru — Enterprise AI Playbook{Colors.ENDC}")
         print(f"{Colors.BOLD}{Colors.GOLD}============================================================{Colors.ENDC}")
         print("  1. 🎛️ Run AI ROI Scenario Simulator")
         print("  2. 📋 View System Prompts & Simulate AI Execution")
