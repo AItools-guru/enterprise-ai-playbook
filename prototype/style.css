@@ -913,3 +913,20 @@ input[type="range"]::-webkit-slider-thumb:hover {
     background: rgba(255, 255, 255, 0.015);
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
 }
+
+/* ==========================================================================
+   EXPORT BUTTON DESIGN HOVER & ACTIVE TRANSITIONS
+   ========================================================================== */
+#btn-export-pdf {
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#btn-export-pdf:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(88, 166, 255, 0.45) !important;
+    background: linear-gradient(135deg, var(--accent-cyan-glow), var(--accent-cyan)) !important;
+}
+
+#btn-export-pdf:active {
+    transform: translateY(0);
+}

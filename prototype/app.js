@@ -874,6 +874,423 @@ ORDER BY s.actual_transit_days DESC;
         });
     });
 
+    // ---------------------------------------------------------
+    // 7. Executive AI Business Case PDF Exporter (v1.3 Upgrade)
+    // ---------------------------------------------------------
+    const btnExportPdf = document.getElementById("btn-export-pdf");
+    if (btnExportPdf) {
+        btnExportPdf.addEventListener("click", () => {
+            // Retrieve dynamic simulator values
+            const teamSize = document.getElementById("team-size").value;
+            const hourlyRate = document.getElementById("hourly-rate").value;
+            const automationRate = document.getElementById("automation-rate").value;
+            
+            const hoursSaved = document.getElementById("kpi-hours-saved").textContent;
+            const netSavings = document.getElementById("kpi-net-savings").textContent;
+            const productivity = document.getElementById("kpi-productivity").textContent;
+            const breakeven = document.getElementById("kpi-breakeven").textContent;
+            
+            // Generate reps capacity equivalent
+            const monthlyWorkHours = 160;
+            const hoursSavedNum = parseInt(hoursSaved.replace(/,/g, '')) || 0;
+            const repsEquivalent = Math.round(hoursSavedNum / monthlyWorkHours);
+            
+            // Retrieve dynamic roadmap statuses
+            const seattleStatusSelect = document.querySelector('.gantt-status-select[data-initiative="seattle"]');
+            const sfStatusSelect = document.querySelector('.gantt-status-select[data-initiative="sf"]');
+            const chicagoStatusSelect = document.querySelector('.gantt-status-select[data-initiative="chicago"]');
+            const austinStatusSelect = document.querySelector('.gantt-status-select[data-initiative="austin"]');
+            
+            const seattleStatus = seattleStatusSelect ? seattleStatusSelect.options[seattleStatusSelect.selectedIndex].text : "Live / Active";
+            const sfStatus = sfStatusSelect ? sfStatusSelect.options[sfStatusSelect.selectedIndex].text : "Testing";
+            const chicagoStatus = chicagoStatusSelect ? chicagoStatusSelect.options[chicagoStatusSelect.selectedIndex].text : "Development";
+            const austinStatus = austinStatusSelect ? austinStatusSelect.options[austinStatusSelect.selectedIndex].text : "Planning";
+
+            const seattleRaw = seattleStatusSelect ? seattleStatusSelect.value : "live";
+            const sfRaw = sfStatusSelect ? sfStatusSelect.value : "testing";
+            const chicagoRaw = chicagoStatusSelect ? chicagoStatusSelect.value : "development";
+            const austinRaw = austinStatusSelect ? austinStatusSelect.value : "planning";
+            
+            // Calculate active map velocities based on slider
+            const autoPercent = parseInt(automationRate) || 10;
+            const seattleVel = Math.min(95, Math.round(8 + autoPercent)).toFixed(1);
+            const sfVel = Math.min(98, Math.round(30 + autoPercent * 3)).toFixed(1);
+            const chicagoVel = Math.round(80 + autoPercent * 17).toFixed(1);
+            const austinVel = Math.min(95, Math.round(15 + autoPercent * 2.5)).toFixed(1);
+            
+            const isNegative = parseInt(netSavings.replace(/[^0-9-]/g, '')) < 0;
+            
+            const timestamp = new Date().toLocaleString("en-US", {
+                timeZoneName: "short",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                hour: "2-digit",
+                minute: "2-digit"
+            });
+            
+            const reportHTML = `
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Executive Briefing - AItools Enterprise AI Adoption & ROI Scorecard</title>
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: #1e293b;
+            background: #ffffff;
+            margin: 0;
+            padding: 40px;
+            font-size: 11.5px;
+            line-height: 1.5;
+        }
+        .header-container {
+            border-bottom: 3px solid #1b365d;
+            padding-bottom: 20px;
+            margin-bottom: 24px;
+        }
+        .logo-block {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo-title {
+            color: #1b365d;
+            font-size: 22px;
+            font-weight: 800;
+            margin: 0;
+            letter-spacing: -0.5px;
+        }
+        .logo-tag {
+            color: #4a777a;
+            font-size: 11px;
+            font-weight: 600;
+            margin: 2px 0 0 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .meta-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 16px;
+            font-size: 10px;
+            color: #64748b;
+            background: #f8fafc;
+            padding: 10px 16px;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+        }
+        .meta-item strong {
+            color: #0f172a;
+        }
+        h2 {
+            color: #1b365d;
+            font-size: 13px;
+            font-weight: 700;
+            border-bottom: 1px solid #cbd5e1;
+            padding-bottom: 4px;
+            margin: 24px 0 12px 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        .kpi-box {
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 14px;
+            background: #f8fafc;
+            text-align: center;
+        }
+        .kpi-box h3 {
+            margin: 0;
+            font-size: 18px;
+            color: #1b365d;
+            font-weight: 800;
+        }
+        .kpi-box span {
+            font-size: 9px;
+            color: #64748b;
+            text-transform: uppercase;
+            font-weight: 700;
+            display: block;
+            margin-top: 4px;
+        }
+        .narrative-box {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 8px;
+            padding: 12px 16px;
+            color: #166534;
+            font-size: 11.5px;
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+        .narrative-box.negative {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #991b1b;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 24px;
+        }
+        th {
+            background: #f1f5f9;
+            color: #475569;
+            text-align: left;
+            padding: 8px 10px;
+            font-weight: 700;
+            border-bottom: 2px solid #cbd5e1;
+            text-transform: uppercase;
+            font-size: 9px;
+        }
+        td {
+            padding: 8px 10px;
+            border-bottom: 1px solid #e2e8f0;
+            color: #334155;
+            font-size: 11px;
+        }
+        tr:nth-child(even) td {
+            background: #fafafa;
+        }
+        .badge {
+            display: inline-block;
+            padding: 2px 6px;
+            font-size: 9px;
+            font-weight: 700;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+        .badge-planning { background: #e2e8f0; color: #475569; }
+        .badge-development { background: #dbeafe; color: #1e40af; }
+        .badge-testing { background: #fef9c3; color: #854d0e; }
+        .badge-live { background: #dcfce7; color: #166534; }
+        
+        .footer-note {
+            margin-top: 40px;
+            border-top: 1px solid #cbd5e1;
+            padding-top: 12px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 9px;
+            color: #94a3b8;
+        }
+        .sig-block {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 60px;
+            margin-top: 40px;
+            page-break-inside: avoid;
+        }
+        .sig-line {
+            border-top: 1px solid #475569;
+            margin-top: 40px;
+            padding-top: 6px;
+            font-size: 10px;
+            color: #475569;
+        }
+        @media print {
+            body { padding: 0; }
+            .no-print { display: none; }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="header-container">
+        <div class="logo-block">
+            <div>
+                <h1 class="logo-title"><i class="fa-solid fa-brain"></i> AItools</h1>
+                <p class="logo-tag">Enterprise AI Strategy Brief & ROI Scorecard</p>
+            </div>
+            <div style="text-align: right;">
+                <span class="badge badge-live" style="font-size: 10px; padding: 4px 8px;">CONFIDENTIAL - EXECUTIVE DIRECTIVE</span>
+            </div>
+        </div>
+        
+        <div class="meta-grid">
+            <div class="meta-item">
+                Prepared By: <strong>Saurabh Shidhore</strong><br/>
+                Role: <strong>AI & BI Operations Lead</strong>
+            </div>
+            <div class="meta-item">
+                Date: <strong>${timestamp}</strong><br/>
+                Framework Version: <strong>v1.3</strong>
+            </div>
+            <div class="meta-item" style="text-align: right;">
+                Enterprise Sandbox: <strong>ZDR API Enabled</strong><br/>
+                Model Gateways: <strong>Claude / Llama / GPT</strong>
+            </div>
+        </div>
+    </div>
+
+    <h2>1. Executive Summary & Financial Analysis</h2>
+    <div class="kpi-grid">
+        <div class="kpi-box">
+            <h3>${hoursSaved} hrs</h3>
+            <span>Hours Automated /mo</span>
+        </div>
+        <div class="kpi-box">
+            <h3 style="color: ${isNegative ? '#991b1b' : '#166534'};">${netSavings}</h3>
+            <span>Net Monthly Savings</span>
+        </div>
+        <div class="kpi-box">
+            <h3>${productivity}</h3>
+            <span>Productivity Gain</span>
+        </div>
+        <div class="kpi-box">
+            <h3>${breakeven}</h3>
+            <span>Payback Horizon</span>
+        </div>
+    </div>
+
+    <div class="narrative-box ${isNegative ? 'negative' : ''}">
+        <strong>Operational Assessment:</strong> 
+        ${isNegative 
+            ? `Your subscription tool costs currently exceed estimated labor savings. To achieve positive operational ROI, recommend targeting tasks with higher complexity or reducing subscription fees.`
+            : `Implementing AI prompts across a team of <strong>${teamSize} reps</strong> (at an average blended rate of <strong>$${hourlyRate}/hr</strong> and an automation rate of <strong>${automationRate}%</strong>) generates a labor capacity equivalent to adding <strong>${repsEquivalent} full-time operator(s)</strong> to your squad—fully paid off in <strong>${breakeven}</strong>.`
+        }
+    </div>
+
+    <h2>2. Regional AI Node Telemetry & Deployment Map</h2>
+    <table style="width: 100%;">
+        <thead>
+            <tr>
+                <th>Active Hub</th>
+                <th>Specialized Focus</th>
+                <th>Model Integration</th>
+                <th>Operational Velocity</th>
+                <th>Allocated ROI Weight</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Seattle Hub</strong></td>
+                <td>Supply Chain & Port Rerouting</td>
+                <td>Llama-3-Agent (${seattleStatus.replace(/^\d+\.\s*/, '')})</td>
+                <td>↓ ${seattleVel}% shipping delay</td>
+                <td>20% ($${window.globalNetSavings > 0 ? Math.round(window.globalNetSavings * 0.20).toLocaleString() : 0} /mo)</td>
+            </tr>
+            <tr>
+                <td><strong>San Francisco</strong></td>
+                <td>Product Strategy & JTBD Synthesizer</td>
+                <td>Claude-3.5-Sonnet (${sfStatus.replace(/^\d+\.\s*/, '')})</td>
+                <td>↓ ${sfVel}% discovery lag</td>
+                <td>40% ($${window.globalNetSavings > 0 ? Math.round(window.globalNetSavings * 0.40).toLocaleString() : 0} /mo)</td>
+            </tr>
+            <tr>
+                <td><strong>Chicago Node</strong></td>
+                <td>Agile Backlog Story splitting</td>
+                <td>Llama-3-70B (${chicagoStatus.replace(/^\d+\.\s*/, '')})</td>
+                <td>↑ ${chicagoVel}% sprint readiness</td>
+                <td>25% ($${window.globalNetSavings > 0 ? Math.round(window.globalNetSavings * 0.25).toLocaleString() : 0} /mo)</td>
+            </tr>
+            <tr>
+                <td><strong>Austin Node</strong></td>
+                <td>Software Refactoring & Scaling</td>
+                <td>GPT-4o-Coder (${austinStatus.replace(/^\d+\.\s*/, '')})</td>
+                <td>↓ ${austinVel}% code review lag</td>
+                <td>15% ($${window.globalNetSavings > 0 ? Math.round(window.globalNetSavings * 0.15).toLocaleString() : 0} /mo)</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>3. Implementation Roadmap & Milestones</h2>
+    <table style="width: 100%;">
+        <thead>
+            <tr>
+                <th>Initiative</th>
+                <th>Geographic Node</th>
+                <th>Assigned Owner</th>
+                <th>Project Status</th>
+                <th>Target Timeline</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Automated Port Rerouting Engine</strong></td>
+                <td>Seattle Gateway</td>
+                <td>Supply Chain Analyst</td>
+                <td><span class="badge badge-${seattleRaw}">${seattleStatus.replace(/^\d+\.\s*/, '')}</span></td>
+                <td>Q1 (Planning) - Q2 (Live)</td>
+            </tr>
+            <tr>
+                <td><strong>JTBD Feature Intelligence Portal</strong></td>
+                <td>San Francisco</td>
+                <td>Product Owner</td>
+                <td><span class="badge badge-${sfRaw}">${sfStatus.replace(/^\d+\.\s*/, '')}</span></td>
+                <td>Q1 (Infra) - Q3 (Testing)</td>
+            </tr>
+            <tr>
+                <td><strong>Agile Backlog & Story Splitter</strong></td>
+                <td>Chicago Node</td>
+                <td>Project Manager</td>
+                <td><span class="badge badge-${chicagoRaw}">${chicagoStatus.replace(/^\d+\.\s*/, '')}</span></td>
+                <td>Q2 (Dev) - Q3 (Testing)</td>
+            </tr>
+            <tr>
+                <td><strong>Database Query Complexity Auditor</strong></td>
+                <td>Austin Node</td>
+                <td>Software Engineer</td>
+                <td><span class="badge badge-${austinRaw}">${austinStatus.replace(/^\d+\.\s*/, '')}</span></td>
+                <td>Q3 (Dev) - Q4 (Launch)</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>4. Enterprise AI Governance Guidelines</h2>
+    <div style="font-size: 10px; color: #475569; border-left: 2px dashed #1b365d; padding-left: 14px; margin-bottom: 24px;">
+        <strong>Zero Data Retention (ZDR) Directive:</strong> All unmasked corporate records must execute unmasked PII filters locally before API ingestion.
+        Enterprise models are subject to strict SOC-2 Type II evaluations. Regional outputs are audited periodically to suppress hallucination rates below a 0.05% threshold.
+    </div>
+
+    <div class="sig-block">
+        <div>
+            <div class="sig-line">Prepared & Audited By:</div>
+            <strong>Saurabh Shidhore</strong><br/>
+            AI & BI Operations Lead, AItools
+        </div>
+        <div>
+            <div class="sig-line">Authorization & VP Approval:</div>
+            Operations Handoff Committee Sign-off
+        </div>
+    </div>
+
+    <div class="footer-note">
+        <span>Report Generated: ${new Date().toLocaleDateString()}</span>
+        <span>AItools-guru © 2026</span>
+    </div>
+
+    <script>
+        // Auto trigger window print dialog immediately on render
+        window.onload = function() {
+            setTimeout(function() {
+                window.print();
+            }, 300);
+        }
+    </script>
+</body>
+</html>
+            `;
+            
+            // Create print window and write the compiled report
+            const printWindow = window.open("", "_blank");
+            if (printWindow) {
+                printWindow.document.write(reportHTML);
+                printWindow.document.close();
+            } else {
+                alert("Popup blocker active! Please allow popups to export the AI Business Case Brief.");
+            }
+        });
+    }
+
     // Initialize with default role (Supply Chain)
     updatePromptView("supply-chain");
 });
