@@ -1118,7 +1118,7 @@ ORDER BY s.actual_transit_days DESC;
         <div class="meta-grid">
             <div class="meta-item">
                 Prepared By: <strong>Saurabh Shidhore</strong><br/>
-                Role: <strong>AI & BI Operations Lead</strong>
+                Role: <strong>AI Analytics & Project/ Product Management</strong>
             </div>
             <div class="meta-item">
                 Date: <strong>${timestamp}</strong><br/>
@@ -1255,7 +1255,7 @@ ORDER BY s.actual_transit_days DESC;
         <div>
             <div class="sig-line">Prepared & Audited By:</div>
             <strong>Saurabh Shidhore</strong><br/>
-            AI & BI Operations Lead, AItools
+            AI Analytics & Project/ Product Management, AItools
         </div>
         <div>
             <div class="sig-line">Authorization & VP Approval:</div>
