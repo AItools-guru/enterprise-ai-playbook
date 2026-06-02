@@ -1091,6 +1091,39 @@ input[type="range"]::-webkit-slider-thumb:hover {
 .stepper-item.v3 .stepper-link-hint { color: var(--accent-green); }
 .stepper-item.v4 .stepper-link-hint { color: var(--accent-purple); }
 
+/* Custom Sidebar Onboarding Tab Button styling */
+.nav-item.onboarding-btn {
+    border: 1px dashed rgba(0, 229, 255, 0.25) !important;
+    background: rgba(0, 229, 255, 0.02) !important;
+    color: var(--accent-cyan) !important;
+    margin-bottom: 16px;
+    font-weight: 600;
+    justify-content: center;
+}
+
+.nav-item.onboarding-btn:hover {
+    border-color: var(--accent-cyan) !important;
+    background: rgba(0, 229, 255, 0.06) !important;
+    box-shadow: 0 0 10px var(--accent-cyan-glow);
+    color: #fff !important;
+}
+
+.nav-item.onboarding-btn:hover i {
+    color: #fff !important;
+}
+
+.nav-item.onboarding-btn.active {
+    background: rgba(0, 229, 255, 0.15) !important;
+    border-color: var(--accent-cyan) !important;
+    color: #fff !important;
+    box-shadow: 0 0 15px rgba(0, 229, 255, 0.15) !important;
+    font-weight: 700;
+}
+
+.nav-item.onboarding-btn.active i {
+    color: var(--accent-cyan) !important;
+}
+
 /* ==========================================================================
    PRINT STYLING OPTIMIZATIONS FOR NEW SECTIONS
    ========================================================================== */
