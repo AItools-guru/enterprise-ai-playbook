@@ -185,6 +185,74 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Dedicated Vertical How to Use Dashboard Stepper -->
+                <div class="card tutorial-card" style="margin-top: 24px;">
+                    <h3><i class="fa-solid fa-route" style="color: var(--accent-cyan);"></i> Onboarding Guide: How to Navigate the AI Playbook Suite</h3>
+                    <p class="card-desc" style="margin-bottom: 20px;">An integrated, step-by-step walkthrough across each of our four operational pillars. Click any step to navigate directly to its section or perform the workflow tasks.</p>
+                    
+                    <div class="vertical-stepper">
+                        <!-- Step 1 -->
+                        <div class="stepper-item v1" data-target-tab="roi-calculator">
+                            <span class="stepper-marker">1</span>
+                            <div class="stepper-content">
+                                <div class="stepper-header">
+                                    <h4 class="stepper-title"><i class="fa-solid fa-calculator"></i> Step 1: Model Financial Return (ROI Simulator)</h4>
+                                    <span class="stepper-badge">Current Tab</span>
+                                </div>
+                                <p class="stepper-desc">
+                                    Adjust the <strong>Team Size</strong>, blended <strong>Hourly Rate</strong>, and <strong>Automation Rate %</strong> sliders in the left panel. The 12-Month Forecast chart and KPI cards will dynamically compute your net monthly savings and exact breakeven horizon. Pro-tip: Keep tool costs balanced to achieve a rapid payback path.
+                                </p>
+                                <span class="stepper-link-hint"><i class="fa-solid fa-circle-play"></i> You are here — Adjust sliders above to see live updates.</span>
+                            </div>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div class="stepper-item v2" data-target-tab="prompt-catalog">
+                            <span class="stepper-marker">2</span>
+                            <div class="stepper-content">
+                                <div class="stepper-header">
+                                    <h4 class="stepper-title"><i class="fa-solid fa-terminal"></i> Step 2: Audit Custom System Prompts (Prompt Console)</h4>
+                                    <span class="stepper-badge">Explore Console</span>
+                                </div>
+                                <p class="stepper-desc">
+                                    Switch to the <strong>Prompt Console</strong> on the sidebar to review production-ready GenAI prompts customized for 6 key corporate personas. Click <strong>"Simulate AI Execution"</strong> to watch the secure sandbox strip unmasked PII, run mock inference, and display formatted database indexing or agile Given-When-Then criteria.
+                                </p>
+                                <span class="stepper-link-hint"><i class="fa-solid fa-arrow-right-long"></i> Click here to jump directly to Prompt Console.</span>
+                            </div>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="stepper-item v3" data-target-tab="strategy-matrix">
+                            <span class="stepper-marker">3</span>
+                            <div class="stepper-content">
+                                <div class="stepper-header">
+                                    <h4 class="stepper-title"><i class="fa-solid fa-layer-group"></i> Step 3: Track Roadmaps & Milestone States (Strategy Matrix)</h4>
+                                    <span class="stepper-badge">Inspect Roadmap</span>
+                                </div>
+                                <p class="stepper-desc">
+                                    Navigate to the <strong>Strategy Matrix</strong> to inspect the capability framework table aligning roles with strategic corporate KPIs. Below it, audit the **Interactive Gantt Chart**. Filter milestones by quarters (Q1-Q4) or change the operational status of any project. Watch as status changes dynamically update downstream telemetry metrics!
+                                </p>
+                                <span class="stepper-link-hint"><i class="fa-solid fa-arrow-right-long"></i> Click here to jump to Strategy Matrix.</span>
+                            </div>
+                        </div>
+
+                        <!-- Step 4 -->
+                        <div class="stepper-item v4" data-target-tab="operations-map">
+                            <span class="stepper-marker">4</span>
+                            <div class="stepper-content">
+                                <div class="stepper-header">
+                                    <h4 class="stepper-title"><i class="fa-solid fa-earth-americas"></i> Step 4: Monitor Regional Telemetry (Global Nodes)</h4>
+                                    <span class="stepper-badge">View Map</span>
+                                </div>
+                                <p class="stepper-desc">
+                                    Click <strong>Global Nodes</strong> on the sidebar to view a stylized geographic map of our active regional AI gateways (Seattle, San Francisco, Chicago, Austin). Click any node to audit its model integration, real-time latency anomalies, and regional financial ROI (synced directly to the sliders on Tab 1).
+                                </p>
+                                <span class="stepper-link-hint"><i class="fa-solid fa-arrow-right-long"></i> Click here to jump to Global Nodes Map.</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </section>
 
             <!-- Tab Content: Prompt Catalog -->
@@ -249,6 +317,33 @@
                             <div class="terminal-body" id="terminal-screen">
                                 <p class="sys-msg">[System] Ready to run AI diagnostics...</p>
                                 <p class="sys-msg">[System] Click 'Simulate AI Execution' above to test the prompt against live business data models.</p>
+                            </div>
+                        </div>
+
+                        <!-- Use Case & User Guide for Prompt Console -->
+                        <div class="card info-card" style="margin-top: 24px;">
+                            <h3><i class="fa-solid fa-circle-info" style="color: var(--accent-gold);"></i> Use Case & User Guide</h3>
+                            <div class="explanation-content">
+                                <div class="guide-section" style="margin-bottom: 14px;">
+                                    <h4 style="color: #ffd700; margin-bottom: 6px; font-size: 13px;"><i class="fa-solid fa-bullseye"></i> The Business Use Case</h4>
+                                    <p style="font-size: 13px; margin-bottom: 12px; color: var(--text-primary); line-height: 1.5;">
+                                        Enterprise system prompts encapsulate standard operating procedures (SOPs) into reproducible, automated LLM instructions. Offloading high-volume tasks (like shipping log evaluations, backlog creation, and database optimizations) to specialized AI agents guarantees speed, security compliance, and consistency across business divisions.
+                                    </p>
+                                </div>
+                                <div class="guide-section" style="border-top: 1px dashed var(--border-color); padding-top: 14px; margin-bottom: 14px;">
+                                    <h4 style="color: #58a6ff; margin-bottom: 6px; font-size: 13px;"><i class="fa-solid fa-forward-step"></i> Step-by-Step Quick Start</h4>
+                                    <ul style="font-size: 12px; padding-left: 16px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 12px;">
+                                        <li><strong>1. Choose a Persona:</strong> Select an operational role in the left list (e.g., Supply Chain Analyst or Software Engineer) to load their fine-tuned system prompt.</li>
+                                        <li><strong>2. Copy Prompt:</strong> Click <strong>"Copy Prompt"</strong> to copy the raw structured prompt for use in external chat interfaces (e.g., ChatGPT, Claude, Gemini).</li>
+                                        <li><strong>3. Sandbox Simulation:</strong> Click <strong>"Simulate AI Execution"</strong> in the terminal to inspect active unmasked PII data scrubbing and review sample structured outputs.</li>
+                                    </ul>
+                                </div>
+                                <div class="guide-section" style="border-top: 1px dashed var(--border-color); padding-top: 14px;">
+                                    <h4 style="color: #39ff14; margin-bottom: 6px; font-size: 13px;"><i class="fa-solid fa-shield-halved"></i> Guardrails & Governance</h4>
+                                    <p style="font-size: 13px; line-height: 1.5; color: var(--text-primary);">
+                                        All sandboxed executions pass strict unmasked PII sanitization and zero-data-retention (ZDR) validation gates before hitting enterprise endpoints, ensuring total security.
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -490,6 +585,33 @@
                         <p id="milestone-desc" style="font-size: 12px; line-height: 1.6; color: var(--text-secondary); margin-bottom: 0;">
                             Click on a quarter header (Q1-Q4 buttons above) or modify status selectors to audit specific target dates, core milestones, and downstream engineering deliverables.
                         </p>
+                    </div>
+                </div>
+
+                <!-- Strategy Matrix Use Case & User Guide Card -->
+                <div class="card info-card" style="margin-top: 24px;">
+                    <h3><i class="fa-solid fa-circle-info" style="color: var(--accent-cyan);"></i> Use Case & User Guide</h3>
+                    <div class="explanation-content">
+                        <div class="guide-section" style="margin-bottom: 14px;">
+                            <h4 style="color: #ffd700; margin-bottom: 6px; font-size: 13px;"><i class="fa-solid fa-bullseye"></i> The Business Use Case</h4>
+                            <p style="font-size: 13px; margin-bottom: 12px; color: var(--text-primary); line-height: 1.5;">
+                                A successful enterprise AI rollout requires strict alignment between team capabilities, technology backbones, and corporate strategic metrics. The Strategy Matrix maps critical workflow bottlenecks to expected efficiency gains, while the Interactive Gantt Chart coordinates regional milestones to secure a clear operational payback pathway.
+                            </p>
+                        </div>
+                        <div class="guide-section" style="border-top: 1px dashed var(--border-color); padding-top: 14px; margin-bottom: 14px;">
+                            <h4 style="color: #58a6ff; margin-bottom: 6px; font-size: 13px;"><i class="fa-solid fa-forward-step"></i> Step-by-Step Quick Start</h4>
+                            <ul style="font-size: 12px; padding-left: 16px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 12px;">
+                                <li><strong>1. Review Alignment Matrix:</strong> Inspect the capability table to understand how prompts solve business bottlenecks and drive key metrics.</li>
+                                <li><strong>2. Filter Roadmap Quarters:</strong> Click the <strong>Show All</strong> or <strong>Q1-Q4</strong> buttons to highlight active execution phases and display active milestones.</li>
+                                <li><strong>3. Update Project Statuses:</strong> Modify the status select box of any regional hub (e.g., SF Hub) to adjust progress bars and trigger live telemetry syncs across the suite.</li>
+                            </ul>
+                        </div>
+                        <div class="guide-section" style="border-top: 1px dashed var(--border-color); padding-top: 14px;">
+                            <h4 style="color: #39ff14; margin-bottom: 6px; font-size: 13px;"><i class="fa-solid fa-clock-rotate-left"></i> Strategic Alignment</h4>
+                            <p style="font-size: 13px; line-height: 1.5; color: var(--text-primary);">
+                                Transitioning roadmap states (e.g., from Planning to Live) dynamically scales deployment telemetry, lowering simulated latencies on the Global Nodes dashboard.
+                            </p>
+                        </div>
                     </div>
                 </div>
             </section>

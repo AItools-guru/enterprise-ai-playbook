@@ -933,3 +933,173 @@ input[type="range"]::-webkit-slider-thumb:hover {
 #btn-export-pdf:active {
     transform: translateY(0);
 }
+
+/* ==========================================================================
+   VERTICAL STEPPER ONBOARDING WALKTHROUGH
+   ========================================================================== */
+.tutorial-card {
+    border: 1px solid var(--border-color);
+    background: rgba(13, 17, 23, 0.4);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(12px);
+}
+
+.vertical-stepper {
+    position: relative;
+    padding-left: 40px;
+    margin-left: 20px;
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+}
+
+.vertical-stepper::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 15px;
+    bottom: 15px;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--accent-cyan), var(--accent-gold), var(--accent-green), var(--accent-purple));
+    border-radius: 1px;
+}
+
+.stepper-item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.stepper-marker {
+    position: absolute;
+    left: -53px;
+    top: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #0d1117;
+    border: 2px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    font-family: var(--font-code);
+    color: var(--text-secondary);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+    z-index: 2;
+}
+
+.stepper-item:hover .stepper-marker {
+    transform: scale(1.2);
+}
+
+/* Specific Vertical Color Themes */
+.stepper-item.v1 .stepper-marker {
+    border-color: var(--accent-cyan);
+    color: var(--accent-cyan);
+    box-shadow: 0 0 10px var(--accent-cyan-glow);
+}
+.stepper-item.v2 .stepper-marker {
+    border-color: var(--accent-gold);
+    color: var(--accent-gold);
+    box-shadow: 0 0 10px var(--accent-gold-glow);
+}
+.stepper-item.v3 .stepper-marker {
+    border-color: var(--accent-green);
+    color: var(--accent-green);
+    box-shadow: 0 0 10px var(--accent-green-glow);
+}
+.stepper-item.v4 .stepper-marker {
+    border-color: var(--accent-purple);
+    color: var(--accent-purple);
+    box-shadow: 0 0 10px var(--accent-purple-glow);
+}
+
+.stepper-content {
+    background: rgba(255, 255, 255, 0.015);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+}
+
+.stepper-content:hover {
+    background: rgba(255, 255, 255, 0.035);
+    border-color: rgba(255, 255, 255, 0.12);
+    transform: translateX(6px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4), 0 0 15px rgba(255, 255, 255, 0.02);
+}
+
+.stepper-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.stepper-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.stepper-badge {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stepper-item.v1 .stepper-badge { background: var(--accent-cyan-glow); color: var(--accent-cyan); border: 1px solid rgba(0, 229, 255, 0.2); }
+.stepper-item.v2 .stepper-badge { background: var(--accent-gold-glow); color: var(--accent-gold); border: 1px solid rgba(255, 215, 0, 0.2); }
+.stepper-item.v3 .stepper-badge { background: var(--accent-green-glow); color: var(--accent-green); border: 1px solid rgba(57, 255, 20, 0.2); }
+.stepper-item.v4 .stepper-badge { background: var(--accent-purple-glow); color: var(--accent-purple); border: 1px solid rgba(188, 57, 250, 0.2); }
+
+.stepper-desc {
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+.stepper-link-hint {
+    margin-top: 10px;
+    font-size: 11px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+
+.stepper-content:hover .stepper-link-hint {
+    opacity: 1;
+}
+
+.stepper-item.v1 .stepper-link-hint { color: var(--accent-cyan); }
+.stepper-item.v2 .stepper-link-hint { color: var(--accent-gold); }
+.stepper-item.v3 .stepper-link-hint { color: var(--accent-green); }
+.stepper-item.v4 .stepper-link-hint { color: var(--accent-purple); }
+
+/* ==========================================================================
+   PRINT STYLING OPTIMIZATIONS FOR NEW SECTIONS
+   ========================================================================== */
+@media print {
+    .tutorial-card, .info-card {
+        page-break-inside: avoid;
+        background: #fff !important;
+        color: #000 !important;
+        border: 1px solid #cbd5e1 !important;
+        box-shadow: none !important;
+    }
+}

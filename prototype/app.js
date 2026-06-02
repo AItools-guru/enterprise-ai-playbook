@@ -23,6 +23,26 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    // 1.1 Stepper Click Tab Navigation & Seamless Sync
+    const stepperItems = document.querySelectorAll(".stepper-item");
+    stepperItems.forEach(item => {
+        const targetTab = item.getAttribute("data-target-tab");
+        const stepperContent = item.querySelector(".stepper-content");
+        if (stepperContent && targetTab) {
+            stepperContent.addEventListener("click", (e) => {
+                e.stopPropagation();
+                const navItem = document.querySelector(`.nav-item[data-tab="${targetTab}"]`);
+                if (navItem) {
+                    navItem.click();
+                    const mainContent = document.querySelector(".main-content");
+                    if (mainContent) {
+                        mainContent.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
+                }
+            });
+        }
+    });
+
     // ---------------------------------------------------------
     // 2. Interactive ROI Simulator & Canvas Chart Engine
     // ---------------------------------------------------------
