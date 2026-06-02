@@ -10,6 +10,7 @@
 [![SaaS - ROI Simulator](https://img.shields.io/badge/Interactive-ROI_Simulator-FFD700?style=for-the-badge&logo=google-chrome&logoColor=black)](https://aitools-guru.github.io/enterprise-ai-playbook/prototype/)
 [![AI Governance - Playbook](https://img.shields.io/badge/AI_Governance-Framework-58A6FF?style=for-the-badge&logo=gitbook&logoColor=white)](./playbook/ai_business_strategy.md)
 [![Role - AI Strategist](https://img.shields.io/badge/Role-AI_%26_Operations_Lead-39FF14?style=for-the-badge)](https://github.com/AItools-guru)
+[![Code Quality CI](https://github.com/AItools-guru/enterprise-ai-playbook/actions/workflows/ci.yml/badge.svg)](https://github.com/AItools-guru/enterprise-ai-playbook/actions/workflows/ci.yml)
 
 </div>
 
@@ -90,15 +91,33 @@ The Prompt Console contains expert-calibrated system prompts for the following e
 ---
 
 ## ⚙️ Running Locally (10 Seconds)
-No installation, databases, or API keys are required to run this on your system:
+
+### 🎛️ Option A: Visual Browser Dashboard (Zero installations required)
+To run the offline responsive glassmorphic browser dashboard locally:
 ```bash
 # Clone the repository
 git clone https://github.com/AItools-guru/enterprise-ai-playbook.git
 cd enterprise-ai-playbook
 
-# Open the interactive simulator in any browser
+# Open in any browser
 open prototype/index.html
 ```
+
+### 🔑 Option B: Live LLM Terminal Executor (With API Keys)
+Run real prompt engineering models live against Claude-3.5-Sonnet or Gemini-1.5-Pro directly from your command-line console:
+```bash
+# 1. Install official LLM SDK providers
+pip install anthropic google-generativeai
+
+# 2. Configure your API key in your terminal
+export ANTHROPIC_API_KEY="your-anthropic-key-here"
+# OR
+export GEMINI_API_KEY="your-gemini-key-here"
+
+# 3. Run the live executor script
+./playbook_live.py
+```
+> 💡 **Failsafe Integrated:** If no keys are configured, `playbook_live.py` automatically falls back to running a simulated pipeline console so the interface continues to operate cleanly!
 
 ---
 
