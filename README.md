@@ -133,3 +133,16 @@ To serve this live on your GitHub profile for recruiters:
 <div align="center">
 <i>Designed as a Business Strategy & Operations Portfolio project — bridging financial ROI analysis, enterprise prompt engineering, and Agile software product delivery.</i>
 </div>
+
+---
+
+<h2 align="center">🧑‍💻 Author</h2>
+
+<p align="center">
+  <strong>Saurabh Shidhore</strong><br>
+  <i>Project Manager | Business Analyst | AI Practitioner</i>
+</p>
+
+<p align="center">
+  👉 <a href="https://www.linkedin.com/in/saurabhshidhore/">Connect on LinkedIn</a> | 💻 <a href="https://github.com/AItools-guru">Follow on GitHub</a>
+</p>
