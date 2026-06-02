@@ -41,6 +41,10 @@
                         <i class="fa-solid fa-earth-americas"></i>
                         <span>Global Nodes</span>
                     </li>
+                    <li class="nav-item" data-tab="onboarding-guide">
+                        <i class="fa-solid fa-route"></i>
+                        <span>Onboarding Guide</span>
+                    </li>
                 </ul>
             </nav>
             <div class="sidebar-footer">
@@ -181,74 +185,6 @@
                                         Calculated savings are based on standard industry operations where automated prompts compress manual repetitive tasks, allowing your team to refocus on high-value analytics.
                                     </p>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Dedicated Vertical How to Use Dashboard Stepper -->
-                <div class="card tutorial-card" style="margin-top: 24px;">
-                    <h3><i class="fa-solid fa-route" style="color: var(--accent-cyan);"></i> Onboarding Guide: How to Navigate the AI Playbook Suite</h3>
-                    <p class="card-desc" style="margin-bottom: 20px;">An integrated, step-by-step walkthrough across each of our four operational pillars. Click any step to navigate directly to its section or perform the workflow tasks.</p>
-                    
-                    <div class="vertical-stepper">
-                        <!-- Step 1 -->
-                        <div class="stepper-item v1" data-target-tab="roi-calculator">
-                            <span class="stepper-marker">1</span>
-                            <div class="stepper-content">
-                                <div class="stepper-header">
-                                    <h4 class="stepper-title"><i class="fa-solid fa-calculator"></i> Step 1: Model Financial Return (ROI Simulator)</h4>
-                                    <span class="stepper-badge">Current Tab</span>
-                                </div>
-                                <p class="stepper-desc">
-                                    Adjust the <strong>Team Size</strong>, blended <strong>Hourly Rate</strong>, and <strong>Automation Rate %</strong> sliders in the left panel. The 12-Month Forecast chart and KPI cards will dynamically compute your net monthly savings and exact breakeven horizon. Pro-tip: Keep tool costs balanced to achieve a rapid payback path.
-                                </p>
-                                <span class="stepper-link-hint"><i class="fa-solid fa-circle-play"></i> You are here — Adjust sliders above to see live updates.</span>
-                            </div>
-                        </div>
-
-                        <!-- Step 2 -->
-                        <div class="stepper-item v2" data-target-tab="prompt-catalog">
-                            <span class="stepper-marker">2</span>
-                            <div class="stepper-content">
-                                <div class="stepper-header">
-                                    <h4 class="stepper-title"><i class="fa-solid fa-terminal"></i> Step 2: Audit Custom System Prompts (Prompt Console)</h4>
-                                    <span class="stepper-badge">Explore Console</span>
-                                </div>
-                                <p class="stepper-desc">
-                                    Switch to the <strong>Prompt Console</strong> on the sidebar to review production-ready GenAI prompts customized for 6 key corporate personas. Click <strong>"Simulate AI Execution"</strong> to watch the secure sandbox strip unmasked PII, run mock inference, and display formatted database indexing or agile Given-When-Then criteria.
-                                </p>
-                                <span class="stepper-link-hint"><i class="fa-solid fa-arrow-right-long"></i> Click here to jump directly to Prompt Console.</span>
-                            </div>
-                        </div>
-
-                        <!-- Step 3 -->
-                        <div class="stepper-item v3" data-target-tab="strategy-matrix">
-                            <span class="stepper-marker">3</span>
-                            <div class="stepper-content">
-                                <div class="stepper-header">
-                                    <h4 class="stepper-title"><i class="fa-solid fa-layer-group"></i> Step 3: Track Roadmaps & Milestone States (Strategy Matrix)</h4>
-                                    <span class="stepper-badge">Inspect Roadmap</span>
-                                </div>
-                                <p class="stepper-desc">
-                                    Navigate to the <strong>Strategy Matrix</strong> to inspect the capability framework table aligning roles with strategic corporate KPIs. Below it, audit the **Interactive Gantt Chart**. Filter milestones by quarters (Q1-Q4) or change the operational status of any project. Watch as status changes dynamically update downstream telemetry metrics!
-                                </p>
-                                <span class="stepper-link-hint"><i class="fa-solid fa-arrow-right-long"></i> Click here to jump to Strategy Matrix.</span>
-                            </div>
-                        </div>
-
-                        <!-- Step 4 -->
-                        <div class="stepper-item v4" data-target-tab="operations-map">
-                            <span class="stepper-marker">4</span>
-                            <div class="stepper-content">
-                                <div class="stepper-header">
-                                    <h4 class="stepper-title"><i class="fa-solid fa-earth-americas"></i> Step 4: Monitor Regional Telemetry (Global Nodes)</h4>
-                                    <span class="stepper-badge">View Map</span>
-                                </div>
-                                <p class="stepper-desc">
-                                    Click <strong>Global Nodes</strong> on the sidebar to view a stylized geographic map of our active regional AI gateways (Seattle, San Francisco, Chicago, Austin). Click any node to audit its model integration, real-time latency anomalies, and regional financial ROI (synced directly to the sliders on Tab 1).
-                                </p>
-                                <span class="stepper-link-hint"><i class="fa-solid fa-arrow-right-long"></i> Click here to jump to Global Nodes Map.</span>
                             </div>
                         </div>
                     </div>
@@ -831,6 +767,76 @@
                             <p style="font-size: 13px; line-height: 1.5; color: var(--text-primary);">
                                 Telemetry streams feature live updates with minor periodic fluctuations (+/- 0.2%) to simulate actual operational networks. Latencies automatically drop when roadmap statuses are set to 'Live / Active'.
                             </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Tab Content: Onboarding Guide -->
+            <section id="onboarding-guide" class="tab-panel">
+                <div class="card tutorial-card">
+                    <h3><i class="fa-solid fa-route" style="color: var(--accent-cyan);"></i> Onboarding Guide: How to Navigate the AI Playbook Suite</h3>
+                    <p class="card-desc" style="margin-bottom: 20px;">An integrated, step-by-step walkthrough across each of our four operational pillars. Click any step below to navigate directly to its section or perform the workflow tasks.</p>
+                    
+                    <div class="vertical-stepper">
+                        <!-- Step 1 -->
+                        <div class="stepper-item v1" data-target-tab="roi-calculator">
+                            <span class="stepper-marker">1</span>
+                            <div class="stepper-content">
+                                <div class="stepper-header">
+                                    <h4 class="stepper-title"><i class="fa-solid fa-calculator"></i> Step 1: Model Financial Return (ROI Simulator)</h4>
+                                    <span class="stepper-badge">Model ROI</span>
+                                </div>
+                                <p class="stepper-desc">
+                                    Adjust the <strong>Team Size</strong>, blended <strong>Hourly Rate</strong>, and <strong>Automation Rate %</strong> sliders in the left panel of the ROI Simulator. The 12-Month Forecast chart and KPI cards will dynamically compute your net monthly savings and exact breakeven horizon. Pro-tip: Keep tool costs balanced to achieve a rapid payback path.
+                                </p>
+                                <span class="stepper-link-hint"><i class="fa-solid fa-arrow-right-long"></i> Click here to jump to ROI Simulator.</span>
+                            </div>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div class="stepper-item v2" data-target-tab="prompt-catalog">
+                            <span class="stepper-marker">2</span>
+                            <div class="stepper-content">
+                                <div class="stepper-header">
+                                    <h4 class="stepper-title"><i class="fa-solid fa-terminal"></i> Step 2: Audit Custom System Prompts (Prompt Console)</h4>
+                                    <span class="stepper-badge">Explore Console</span>
+                                </div>
+                                <p class="stepper-desc">
+                                    Switch to the <strong>Prompt Console</strong> on the sidebar to review production-ready GenAI prompts customized for 6 key corporate personas. Click <strong>"Simulate AI Execution"</strong> to watch the secure sandbox strip unmasked PII, run mock inference, and display formatted database indexing or agile Given-When-Then criteria.
+                                </p>
+                                <span class="stepper-link-hint"><i class="fa-solid fa-arrow-right-long"></i> Click here to jump directly to Prompt Console.</span>
+                            </div>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="stepper-item v3" data-target-tab="strategy-matrix">
+                            <span class="stepper-marker">3</span>
+                            <div class="stepper-content">
+                                <div class="stepper-header">
+                                    <h4 class="stepper-title"><i class="fa-solid fa-layer-group"></i> Step 3: Track Roadmaps & Milestone States (Strategy Matrix)</h4>
+                                    <span class="stepper-badge">Inspect Roadmap</span>
+                                </div>
+                                <p class="stepper-desc">
+                                    Navigate to the <strong>Strategy Matrix</strong> to inspect the capability framework table aligning roles with strategic corporate KPIs. Below it, audit the **Interactive Gantt Chart**. Filter milestones by quarters (Q1-Q4) or change the operational status of any project. Watch as status changes dynamically update downstream telemetry metrics!
+                                </p>
+                                <span class="stepper-link-hint"><i class="fa-solid fa-arrow-right-long"></i> Click here to jump to Strategy Matrix.</span>
+                            </div>
+                        </div>
+
+                        <!-- Step 4 -->
+                        <div class="stepper-item v4" data-target-tab="operations-map">
+                            <span class="stepper-marker">4</span>
+                            <div class="stepper-content">
+                                <div class="stepper-header">
+                                    <h4 class="stepper-title"><i class="fa-solid fa-earth-americas"></i> Step 4: Monitor Regional Telemetry (Global Nodes)</h4>
+                                    <span class="stepper-badge">View Map</span>
+                                </div>
+                                <p class="stepper-desc">
+                                    Click <strong>Global Nodes</strong> on the sidebar to view a stylized geographic map of our active regional AI gateways (Seattle, San Francisco, Chicago, Austin). Click any node to audit its model integration, real-time latency anomalies, and regional financial ROI (synced directly to the sliders on Tab 1).
+                                </p>
+                                <span class="stepper-link-hint"><i class="fa-solid fa-arrow-right-long"></i> Click here to jump to Global Nodes Map.</span>
+                            </div>
                         </div>
                     </div>
                 </div>
